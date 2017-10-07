@@ -1,4 +1,4 @@
-var path = require("path");
+var path = require('path');
 
 var config = {
   entry: [path.join(__dirname,"src/index.js")],
