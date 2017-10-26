@@ -29,6 +29,9 @@
     "react-dom": "^16.0.0",
     "react-router": "^3.0.0",
     "react-scripts": "1.0.14",
+    "redux": "latest",
+    "react-redux": "latest",
+    "redux-devtools": "latest",
     "webpack": "^2.7.0",
     "webpack-dev-server": "latest"
   },

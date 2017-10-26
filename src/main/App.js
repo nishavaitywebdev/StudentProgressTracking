@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import Header from '../utils/Header';
 import Footer from '../utils/Footer';
@@ -10,56 +9,47 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.getUser();
+        // this.getUser();
     }
 
-    componentWillMount() {
-        this.getUser();
-    }
+    // componentWillMount() {
+    //     this.getUser();
+    // }
+    //
+    // getUser = () => {
+    //     // fetchGet('user').then(response => {
+    //     //     if (response.user) {
+    //     //         this.onLogin(response.user);
+    //     //     }
+    //     // });
+    // }
 
-    getUser = () => {
-        // fetchGet('user').then(response => {
-        //     if (response.user) {
-        //         this.onLogin(response.user);
-        //     }
-        // });
-    }
-
-    onLogin = (user) => {
-        this.setState({user, isLoggedIn: true });
-    }
-
-    onLogout = () => {
-        this.setState({user: undefined, isLoggedIn: false });
-    }
-
-    updateParentState = (state) => {
-        this.setState(state);
-    }
+    // onLogin = (user) => {
+    //     this.setState({user, isLoggedIn: true });
+    // }
+    //
+    // onLogout = () => {
+    //     this.setState({user: undefined, isLoggedIn: false });
+    // }
+    //
+    // updateParentState = (state) => {
+    //     this.setState(state);
+    // }
 
 
     render() {
+        const _style = {
+            position:'relative',
+            marginTop: 100,
+            marginBottom: 100,
+        }
         const childrenWithProps = React.Children.map(this.props.children,
-            (child) => React.cloneElement(child, {
-                isLoggedIn: this.state.isLoggedIn,
-                onLogin: this.onLogin,
-                onLogout: this.onLogout,
-                updateParentState: this.updateParentState,
-                parentState: this.state,
-                user: this.state.user,
-            })
+            (child) => React.cloneElement(child)
         );
         return (
-            <div>
-                <Header
-                    isLoggedIn= {this.state.isLoggedIn}
-                    onLogin={this.onLogin}
-                    onLogout={this.onLogout}
-                    updateParentState={this.updateParentState}
-                    parentState={this.state}
-                    user={this.state.user}
-                />
-                <div className="col-xs-6 col-xs-offset-3">
+                <div>
+                <Header/>
+                <div className="container" style={_style}>
                     { childrenWithProps }
                 </div>
                 <Footer/>
