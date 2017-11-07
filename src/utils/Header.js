@@ -3,27 +3,24 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class Header extends React.Component {
-    componentDidMount(){
-
-    }
-
     showRight = () => {
-        // if (this.props.isLoggedIn) {
-        //     return (
-        //         <ul className="nav navbar-nav navbar-right">
-        //             <li><a href="/#/profile">
-        //                 <span className="glyphicon glyphicon-user"></span>Profile</a>
-        //             </li>
-        //             <li><a href="/#/logout">
-        //                 <span className="glyphicon glyphicon-log-in">
-        //                 </span> Logout</a>
-        //             </li>
-        //         </ul>
-        //     );
-        // }
-        // else {
+        if (this.props.user) {
+            return (
+                <ul className="nav navbar-nav navbar-right">
+                    <li><a href="/#/profile">
+                        <span className="glyphicon glyphicon-user"></span>Profile</a>
+                    </li>
+                    <li><a href="/#/logout">
+                        <span className="glyphicon glyphicon-log-in">
+                        </span> Logout</a>
+                    </li>
+                </ul>
+            );
+        }
+        else {
             return (
                 <ul className="nav navbar-nav navbar-right">
                     <li><a href="/#/signup">
@@ -35,10 +32,8 @@ class Header extends React.Component {
                     </li>
                 </ul>
             );
-        // }
+        }
     }
-
-
     render(){
         return(
             <nav className="navbar navbar-inverse navbar-fixed-top">
@@ -62,14 +57,12 @@ class Header extends React.Component {
         );
     }
 }
-//
-// Header.propTypes = {
-//     name: PropTypes.string,
-//     isLoggedIn: PropTypes.bool,
-// };
-// Header.defaultProps = {
-//     name: 'Home',
-//     menuItems: [],
-// };
-
-export default Header
+Header.propTypes = {
+    user: PropTypes.object,
+};
+function mapStateToProps(state){
+    return {
+        user: state.userReducer.loggedIn,
+    };
+}
+export default connect(mapStateToProps)(Header)

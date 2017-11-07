@@ -3,8 +3,11 @@
  */
 import React, { Component } from 'react';
 import { fetchGet } from 'utils/fetch';
+import { editProject } from '../actions/ProjectActions';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AddNewTeam from '../teams/AddNewTeam';
+import ProjectStatus from './ProjectStatus';
 
 class ProjectDetail extends Component {
     constructor(props) {
@@ -36,8 +39,13 @@ class ProjectDetail extends Component {
             return(users[id]);
         });
         const owner = this.props.user.id === projectDetails.ownedBy;
+        const comments = this.props.comments;
+        const projectComments = Object.values(comments).filter(function (comment) {
+            return comment.projectId === projectDetails.id;
+        });
         return(
             <div className="container">
+                <ProjectStatus onUserInput={this.props.editProject} project={projectDetails} notOwner={!owner} />
                 <div className="form-group">
                     <label>Project Name</label>
                     <input type="text" className="form-control" id="website-name"
@@ -48,6 +56,13 @@ class ProjectDetail extends Component {
                     <textarea type="text" className="form-control" id=""
                               disabled={!owner} size="3"
                        value={projectDetails.desc}
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Expected Results</label>
+                    <textarea type="text" className="form-control" id=""
+                              disabled={!owner} size="3"
+                              value={projectDetails.expectedResult}
                     />
                 </div>
                 <hr/>
@@ -62,14 +77,22 @@ class ProjectDetail extends Component {
                         <h1 className="heading-color">Follow Up</h1>
                         <a type="button" className="btn btn-success"  href="">Add Comment</a><br/>
                     </div>
+                    <br/>
                     <ol className="comment-list">
-                        <li className="comment">
-                            <article className="comment-body">
-                                <div className="comment-content">
-                                    {/*<p>{{userReview.comment}}</p>*/}
-                                </div>
-                            </article>
-                        </li>
+                        {
+                            Object.values(projectComments).map(function (comment) {
+                                return(
+                                    <li key={comment.id} className="comment">
+                                        <article className="comment-body">
+                                            <div className="comment-content">
+                                                <p>{comment.commentText}</p>
+                                            </div>
+                                        </article>
+                                    </li>
+                                );
+                            })
+                        }
+                        <br/>
                     </ol>
                 </div>
             </div>
@@ -81,6 +104,10 @@ function mapStateToProps(state){
         projects: state.projectReducer.projectById,
         user: state.userReducer.loggedIn,
         users: state.userReducer.userById,
+        comments: state.commentReducer.commentById,
     }
 }
-export default connect(mapStateToProps)(ProjectDetail)
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({editProject: editProject}, dispatch);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetail)

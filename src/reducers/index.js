@@ -6,12 +6,14 @@ import preferenceReducer from './preferences';
 import projectReducer from './projects';
 import userReducer from './users';
 import teamReducer from './teams';
+import commentReducer from './comments';
 
 const progressApp = combineReducers({
     preferenceReducer,
     projectReducer,
     userReducer,
     teamReducer,
+    commentReducer,
 })
 
 export default progressApp

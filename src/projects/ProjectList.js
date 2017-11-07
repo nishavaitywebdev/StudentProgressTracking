@@ -3,7 +3,10 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { setFilterText } from '../actions/ProjectActions';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import SearchBar from './SearchBar';
 
 class ProjectList extends Component {
     constructor(props){
@@ -11,27 +14,37 @@ class ProjectList extends Component {
     }
     render(){
         const projects = this.props.projects;
+        const user = this.props.user;
+        let rows = [];
+        projects.forEach(function (project) {
+            if (project.name.includes(this.props.filterText)
+                || project.desc.includes(this.props.filterText)) {
+                rows.push(
+                    <li key={project.id} className="list-group-item">
+                        <p>
+                            <a href={`#/project/${project.id}`}
+                               className="navbar-link">{project.name}</a>
+                            <a className="">{project.desc}</a>
+                            {(user.id === project.ownedBy) &&
+                            <a className="pull-right"
+                               href={`#/editproject/${project.id}`}>
+                                <span className="glyphicon glyphicon-cog">
+                                </span>
+                            </a>
+                            }
+                        </p>
+                    </li>
+                );
+            }
+        }.bind(this));
+
         return(
             <div className="col-sm-12">
+                <SearchBar filterText={this.props.filterText} onUserInput={this.props.setFilterText}/>
                 <div>
                     <ul className="list-group">
                         {
-                            projects.map(function (project) {
-                                return (
-                                    <li key={project.id} className="list-group-item">
-                                        <p>
-                                            <a href={`#/project/${project.id}`}
-                                               className="navbar-link">{project.name}</a>
-                                            <a className="">{project.desc}</a>
-                                            <a className="pull-right"
-                                               href={`#/editproject/${project.id}`}>
-                                                <span className="glyphicon glyphicon-cog">
-                                                </span>
-                                            </a>
-                                        </p>
-                                    </li>
-                                );
-                            })
+                            rows
                         }
                     </ul>
                 </div>
@@ -45,7 +58,12 @@ ProjectList.propTypes = {
 };
 function mapStateToProps(state){
     return {
-        projects: state.projectReducer.projectById
+        projects: state.projectReducer.projectById,
+        user: state.userReducer.loggedIn,
+        filterText: state.projectReducer.filterText,
     }
 }
-export default connect(mapStateToProps)(ProjectList)
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({setFilterText: setFilterText}, dispatch);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectList)

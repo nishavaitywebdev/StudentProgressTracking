@@ -12,27 +12,22 @@ class AddNewTeam extends Component{
         super(props);
     }
     addTeamMember = (id, team) => {
-        console.log("Here");
-        team.members.push(id);
-        console.log(team);
+        team.members.push(Number(id));
         this.props.updateTeam(team);
     }
     removeTeamMember = (id, team) => {
-        team.members.remove(id);
+        team.members.splice(team.members.indexOf(Number(id)), 1);
         this.props.updateTeam(team);
-    }
-    componentWillUpdate(){
-
     }
     render(){
         const team = this.props.teams[this.props.project.teamId];
-        const remainingInterestedStudents = this.props.interestedStudents.map(function (student) {
-            if(team.members.find(function (id) {
-                    id === student.id;
-                }) == undefined)
-                return student;
+        const students = this.props.interestedStudents;
+        const remainingInterestedStudents = students.filter(function (student) {
+            return (!team.members.includes(student.id));
         });
-        const teamMembers = [];
+        const teamMembers = students.filter(function (student) {
+            return team.members.includes(student.id);
+        });
         return(
             <div>
                 <div className="form-group">
@@ -42,9 +37,9 @@ class AddNewTeam extends Component{
                             return(
                                 <li key={student.id} className="list-group-item">
                                     <p>
-                                        <a className="navbar-link">{student.firstname} </a>
-                                        <a className="navbar-link">{student.lastname}</a>
-                                        <a className="pull-right" onClick={this.removeTeamMember(student.id, team)}>
+                                        <a href={`#/profileview/${student.id}`}>{student.firstname} {student.lastname}</a>
+                                        <a className="pull-right" key={student.id}
+                                           onClick={() => this.removeTeamMember(student.id, team)}>
                                             <span className="glyphicon glyphicon-remove"></span>
                                         </a>
                                     </p>
@@ -60,11 +55,11 @@ class AddNewTeam extends Component{
                             return(
                                 <li key={student.id} className="list-group-item">
                                     <p>
-                                        <a className="navbar-link">{student.firstname} </a>
-                                        <a className="navbar-link">{student.lastname}</a>
-                                        <button className="pull-right" onClick={this.addTeamMember(student.id, team)}>
+                                        <a href={`#/profileview/${student.id}`}>{student.firstname} {student.lastname}</a>
+                                        <a className="pull-right" key={student.id}
+                                           onClick={() => this.addTeamMember(student.id, team)}>
                                             <span className="glyphicon glyphicon-ok"></span>
-                                        </button>
+                                        </a>
                                     </p>
                                 </li>
                             );
@@ -77,6 +72,7 @@ class AddNewTeam extends Component{
 }
 AddNewTeam.propTypes = {
     project: PropTypes.object,
+    teams: PropTypes.object,
     interestedStudents: PropTypes.array,
 };
 function mapStateToProps(state) {
