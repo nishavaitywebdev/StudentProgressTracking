@@ -18,10 +18,11 @@ export default function teams(state = initialState, action) {
     switch (action.type) {
         case types.ADD_TEAM:
             const teamId = state.teams.length + 1;
-            const newTeam = {...action.team, id: teamId};
+            const newTeam = {...action.team, id: teamId, projectId: teamId};
+            state.teamById[teamId] = newTeam;
             return {
                 teams: [...state.teams, teamId],
-                teamById: {...state.teamById, newTeam},
+                teamById: state.teamById,
             }
         case types.UPDATE_TEAM:
             let newstate = {};

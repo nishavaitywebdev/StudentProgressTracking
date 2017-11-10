@@ -14,10 +14,12 @@ class AddNewTeam extends Component{
     addTeamMember = (id, team) => {
         team.members.push(Number(id));
         this.props.updateTeam(team);
+        this.forceUpdate();
     }
     removeTeamMember = (id, team) => {
         team.members.splice(team.members.indexOf(Number(id)), 1);
         this.props.updateTeam(team);
+        this.forceUpdate();
     }
     render(){
         const team = this.props.teams[this.props.project.teamId];

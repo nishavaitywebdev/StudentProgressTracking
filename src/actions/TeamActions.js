@@ -3,10 +3,10 @@
  */
 import * as types from '../../src/constants/ActionTypes';
 
-export function addTeam(projectId) {
+export function addTeam(team) {
     return {
         type: types.ADD_TEAM,
-        payload: { projId: projectId, }
+        team
     };
 }
 export function updateTeam(team) {

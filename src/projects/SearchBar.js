@@ -15,6 +15,7 @@ class SearchBar extends Component {
             <form>
                 <input
                     type="text"
+                    className="form-control"
                     placeholder="Search..."
                     value={this.props.filterText}
                     ref="filterTextInput"

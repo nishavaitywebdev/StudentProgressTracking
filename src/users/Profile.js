@@ -22,6 +22,7 @@ class Profile extends Component{
         else
             user.coursesCompleted.push(key);
         this.props.updateUser(user);
+        this.forceUpdate();
     }
     submitChanges = () => {
         let user = this.props.user;
@@ -31,6 +32,7 @@ class Profile extends Component{
         user.lastname = this.refs.lastname.value;
         user.aboutMySelf = this.refs.aboutMyself.value;
         this.props.updateUser(user);
+        this.forceUpdate();
     }
 
     render(){
@@ -43,7 +45,7 @@ class Profile extends Component{
                 courseValues.push(
                     <div>
                         <label>
-                            <input id={key} name={value} type="checkbox" defaultChecked={true} onChange={this.handleChange}/>
+                            <input key={key} id={key} name={value} type="checkbox" defaultChecked={true} onChange={this.handleChange}/>
                              {value}
                         </label>
                     </div>
@@ -53,7 +55,7 @@ class Profile extends Component{
                 courseValues.push(
                     <div>
                         <label>
-                            <input id={key} name={value} type="checkbox" defaultChecked={false} onChange={this.handleChange}/>
+                            <input key={key} id={key} name={value} type="checkbox" defaultChecked={false} onChange={this.handleChange}/>
                              {value}
                         </label>
                     </div>

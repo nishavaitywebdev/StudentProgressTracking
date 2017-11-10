@@ -2,15 +2,25 @@
  * Created by nishavaity on 10/7/17.
  */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ProjectList from '../projects/ProjectList';
+import { connect } from 'react-redux';
+import AdminConsole from '../users/admin/AdminConsole';
 
 class HomePage extends Component {
 
     render() {
-        return(
-            <ProjectList />
-        );
+        if(this.props.user.role === 'admin') return (<AdminConsole />);
+        else return(<ProjectList />);
     }
 }
 
-export default HomePage
+HomePage.propTypes = {
+    user: PropTypes.object,
+};
+function mapStateToProps(state){
+    return {
+        user: state.userReducer.loggedIn,
+    }
+}
+export default connect(mapStateToProps)(HomePage)

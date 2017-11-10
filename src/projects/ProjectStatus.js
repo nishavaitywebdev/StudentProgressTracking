@@ -11,7 +11,7 @@ class ProjectStatus extends Component {
         this.props.onUserInput(
             updatedProject
         );
-    }
+    };
     render () {
         const states = ["INACTIVE", "PROPOSED", "ACTIVE", "IN-PROGRESS", "COMPLETED"];
         const currState = this.props.project.state;

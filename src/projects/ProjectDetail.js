@@ -13,14 +13,6 @@ class ProjectDetail extends Component {
     constructor(props) {
         super(props);
     }
-    componentWillMount() {
-        // fetchGet(`/project/${this.props.params.id}`)
-        //     .then(response => {
-        //         if (response.status == 200) {
-        //             this.data = response.data;
-        //         }
-        //     })
-    }
     getProjectDetails () {
         const projects = this.props.projects;
         let projectDetails = {};
