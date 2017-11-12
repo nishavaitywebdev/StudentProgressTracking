@@ -15,15 +15,25 @@ const initialState = {
         6: { id: 6, firstname: "Abhisha ", lastname: "Vaity", email: "abhisha@gmail.com", username: "abhisha", password:"abhisha", role: "student",
             aboutMyself: "", coursesCompleted: [], projectPreferences: [] },
     },
-    loggedIn: null,
+    loggedIn: null, user: null, status:null, error:null, loading: false,
     courses: {
         1: "Web Development", 2: "Programming Design Paradigm",
         3: "Managing Software Development", 4: "Information Retrieval",
     },
 }
 
+const INITIAL_STATE = {user: null, status:null, error:null, loading: false};
+
 export default function users(state = initialState, action) {
     switch (action.type) {
+        case types.SIGNIN_USER:// sign in user,  set loading = true and status = signin
+            return { ...state, user: null, status:'signin', error:null, loading: true};
+        case types.SIGNIN_USER_SUCCESS:
+            return { ...state, loggedIn: action.payload, user: action.payload, status:'authenticated', error:null, loading: false}; //<-- authenticated
+        case types.SIGNIN_USER_FAILURE:// return error and make loading = false
+            error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
+            return { ...state, user: null, status:'signin', error:error, loading: false};
+
         case types.ADD_USER:
             const userId = state.users.length + 1;
             const newUser = {...action.user, id: userId};
@@ -50,16 +60,13 @@ export default function users(state = initialState, action) {
                 }
             });
             return newstate;
-        case types.UPDATE_USER:
-            const uid = action.user.id;
-            const updatedUser = action.user;
-            state.userById[uid] = updatedUser;
-            return {
-                users: [state.users],
-                userById: state.userById,
-                loggedIn: state.loggedIn,
-                courses: state.courses,
-            }
+        case types.UPDATE_USER:// sign in user,  set loading = true and status = signin
+            return { ...state, status:'updating', error:null, loading: true};
+        case types.UPDATE_USER_SUCCESS:
+            return { ...state, loggedIn: action.user, user: action.user, status:'updated', error:null, loading: false}; //<-- authenticated
+        case types.UPDATE_USER_FAILURE:// return error and make loading = false
+            error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
+            return { ...state, user: null, status:'update', error:error, loading: false};
         case types.LOGOUT_USER:
             return {
                 users: [state.users],

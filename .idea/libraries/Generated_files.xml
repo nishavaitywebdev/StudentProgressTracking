@@ -1,31 +1,5 @@
 <component name="libraryTable">
-  <library name="Generated files" type="javaScript">
-    <properties>
-      <sourceFilesUrls>
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/Set-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/Map-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/Keys-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/umd/react.development-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/cx-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/umd/react.production.min-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/keyOf-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/index-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/URI-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/cjs/react.production.min-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/minBy-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/maxBy-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/cjs/react.development-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/__mocks__/fetch-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/.bin/loose-envify-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/__mocks__/base62-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/fetch-compiled.js" />
-        <item url="file://$PROJECT_DIR$/server-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/crc32-compiled.js" />
-        <item url="file://$PROJECT_DIR$/webpack.config-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/Style-compiled.js" />
-        <item url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/__mocks__/crc32-compiled.js" />
-      </sourceFilesUrls>
-    </properties>
+  <library name="Generated files">
     <CLASSES>
       <root url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/Set-compiled.js" />
       <root url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/Map-compiled.js" />
@@ -50,6 +24,7 @@
       <root url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/Style-compiled.js" />
       <root url="file://$PROJECT_DIR$/re/re/node_modules/react/node_modules/fbjs/lib/__mocks__/crc32-compiled.js" />
     </CLASSES>
+    <JAVADOC />
     <SOURCES />
   </library>
 </component>

@@ -32,6 +32,7 @@
     "redux": "latest",
     "react-redux": "latest",
     "redux-devtools": "latest",
+    "redux-thunk": "latest",
     "webpack": "^2.7.0",
     "webpack-dev-server": "latest"
   },

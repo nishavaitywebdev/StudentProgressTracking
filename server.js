@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var { initiate } = require('./backend');
 var cookieParser = require('cookie-parser');
 var session       = require('express-session');
 
@@ -24,4 +25,5 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
+initiate(app);
 app.listen();

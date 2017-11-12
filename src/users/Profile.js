@@ -21,20 +21,36 @@ class Profile extends Component{
             user.coursesCompleted.splice(coursesCompleted.indexOf(key), 1);
         else
             user.coursesCompleted.push(key);
-        this.props.updateUser(user);
+        const opts = {
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            method: 'PUT',
+            credentials: 'same-origin',
+            body: JSON.stringify(user),
+        };
+        this.props.updateUser(opts);
         this.forceUpdate();
-    }
-    submitChanges = () => {
+    };
+    submitChanges = (event) => {
+        event.preventDefault();
         let user = this.props.user;
         user.username = this.refs.username.value;
         user.email = this.refs.email.value;
         user.firstname = this.refs.firstname.value;
         user.lastname = this.refs.lastname.value;
-        user.aboutMySelf = this.refs.aboutMyself.value;
-        this.props.updateUser(user);
+        user.aboutMyself = this.refs.aboutMyself.value;
+        const opts = {
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            method: 'PUT',
+            credentials: 'same-origin',
+            body: JSON.stringify(user),
+        };
+        this.props.updateUser(opts);
         this.forceUpdate();
-    }
-
+    };
     render(){
         const user = this.props.user;
         const courses = this.props.courses;
@@ -64,12 +80,7 @@ class Profile extends Component{
         }, this);
         return(
             <div className="container">
-                {
-                    <div>
-                        <button onClick={this.submitChanges}>Submit changes</button>
-                    </div>
-                }
-                <form>
+                <form onSubmit={this.submitChanges}>
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
                         <input type="text" defaultValue={username} className="form-control" ref="username" placeholder="Username" />
@@ -84,15 +95,13 @@ class Profile extends Component{
                     </div>
                     <div className="form-group">
                         <label htmlFor="last-name">Last Name</label>
-                        <input type="text" defaultValue={lastname} className="form-control" ref="last-name" placeholder="Last Name" />
+                        <input type="text" defaultValue={lastname} className="form-control" ref="lastname" placeholder="Last Name" />
                     </div>
-                    { role == "student" &&
-                        <div className="form-group">
-                            <label htmlFor="about">About myself</label>
-                            <input type="text" defaultValue={aboutMyself} className="form-control" ref="aboutMyself"
-                                   placeholder="About me"/>
-                        </div>
-                    }
+                    <div className="form-group">
+                        <label htmlFor="about">About myself</label>
+                        <input type="text" defaultValue={aboutMyself} className="form-control" ref="aboutMyself"
+                               placeholder="About me"/>
+                    </div>
                     { role == "student" &&
                         <div className="form-group">
                             <label htmlFor="courses">Courses Completed</label><br/>
@@ -101,6 +110,7 @@ class Profile extends Component{
                             }
                         </div>
                     }
+                    <input type="submit" className="btn btn-primary btn-block" value="Update" />
                 </form>
                 <a className="btn btn-primary btn-block"
                    href="#/homepage">Home</a>

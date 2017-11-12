@@ -2,7 +2,7 @@
  * Created by nishavaity on 10/2/17.
  */
 import React, { Component } from 'react';
-import { getUser } from '../actions/UserActions';
+import { signInUser } from '../actions/UserActions';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,9 +14,20 @@ class LoginForm extends Component {
         // else
         //     this.props.alert = 'Invalid';
     }
-    submit = () => {
-        const user = { username: this.refs.username.value, password: this.refs.password.value};
-        this.props.getUser(user);
+    submit = (event) => {
+        event.preventDefault();
+        const opts = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+          credentials: 'same-origin',
+          body: JSON.stringify({
+            username: this.refs.username.value,
+            password: this.refs.password.value
+          }),
+        };
+        this.props.signInUser(opts);
     }
     render() {
         return(
@@ -54,10 +65,10 @@ LoginForm.propTypes = {
 };
 function mapStateToProps(state){
     return {
-        user: state.userReducer.loggedIn,
+        user: state.userReducer.user,
     };
 }
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({getUser: getUser}, dispatch);
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({signInUser: signInUser}, dispatch);
 }
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
