@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
 class Logout extends Component {
     componentWillMount() {
         this.props.dispatch(logoutUser());
+    }
+    componentDidUpdate() {
         this.props.router.push('/loginform');
     }
     render() {

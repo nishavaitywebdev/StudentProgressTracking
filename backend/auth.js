@@ -3,7 +3,7 @@
  */
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const { UserModelApi } = require('./models.js');
+const { UserModelApi } = require('./models/user/user.model.server.js');
 var session = require('express-session');
 
 const authenticateLocalUser = (username, password, done) => {

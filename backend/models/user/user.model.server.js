@@ -18,20 +18,17 @@ const state = {
         6: { id: 6, firstname: "Abhisha ", lastname: "Vaity", email: "abhisha@gmail.com", username: "abhisha", password:"abhisha", role: "student",
             aboutMyself: "", coursesCompleted: [], projectPreferences: [] },
     },
-    loggedIn: null,
-    courses: {
-        1: "Web Development", 2: "Programming Design Paradigm",
-        3: "Managing Software Development", 4: "Information Retrieval",
-    },
 }
 
 UserModelApi = {
     createUser: (user) => createUser(user),
     findOne: (user) => findUser(user.id),
-    findUserById: (_id) => findUser(user.id),
+    getUsers: () => getUsers(),
+    findUserById: (_id) => findUser(_id),
     // findUserByUserName: (userName) => UserModel.findOne({ userName }),
     findUserByCredentials: (userName, password) => findUserByCreds({ userName, password }),
     updateUser: (_id, user) => updateUser({ _id }, user),
+    addPreference: (uid, prefId, pid) => addPreference(uid, prefId, pid),
 };
 
 const createUser = (user) => {
@@ -50,6 +47,9 @@ const updateUser = (id, user) => {
     return updatedUser;
 };
 
+const getUsers = () => {
+    return state.userById;
+};
 
 const findUser = (uid) => {
     let res = undefined;
@@ -71,6 +71,12 @@ const findUserByCreds = (u) => {
     });
     return res;
 };
+const addPreference = (uid, prefId, pid) => {
+    const projId = pid;
+    state.userById[uid].projectPreferences.splice(prefId-1, 1, projId);
+    let userAfterPreferences = state.userById[uid];
+    return userAfterPreferences;
+}
 module.exports = {
     UserModelApi,
 };

@@ -2,29 +2,35 @@
  * Created by nishavaity on 11/5/17.
  */
 import React, { Component } from 'react';
+import { getUser, getCourses } from '../actions/UserActions';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class ProfileView extends Component{
     constructor(props) {
         super(props);
+        this.props.getCourses();
+        this.props.getUser(Number(this.props.params.id));
     }
 
     render(){
-        const user = this.props.users[this.props.params.id];
+        const user = this.props.user;
         const courses = this.props.courses;
-        let { username, firstname, lastname, email, aboutMyself, coursesCompleted, role } = user;
-        let courseValues = [];
-        Object.entries(courses).forEach( ([key, value]) => {
-            if(coursesCompleted.includes(key)) {
-                courseValues.push(
-                    <div>
-                        <input id={key} type="text" disabled="true" value={value} />
-                    </div>
-                );
-            }
-        });
-        return(
+        if(user != null && courses != null){
+            let { username, firstname, lastname, email, aboutMyself, coursesCompleted, role } = user;
+            let courseValues = [];
+
+            Object.entries(courses).forEach( ([key, value]) => {
+                if(coursesCompleted.includes(Number(key))) {
+                    courseValues.push(
+                        <div>
+                            <input id={key} type="text" disabled="true" value={value} />
+                        </div>
+                    );
+                }
+            });
+            return(
             <div className="container">
                 <form>
                     <div className="form-group">
@@ -61,6 +67,7 @@ class ProfileView extends Component{
                 </form>
             </div>
         );
+        } else return (<noscript />);
     }
 }
 ProfileView.propTypes = {
@@ -69,8 +76,11 @@ ProfileView.propTypes = {
 };
 function mapStateToProps(state){
     return {
-        users: state.userReducer.userById,
+        user: state.userReducer.reqUser,
         courses: state.userReducer.courses,
     };
 }
-export default connect(mapStateToProps)(ProfileView)
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({getCourses: getCourses, getUser: getUser}, dispatch);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileView)

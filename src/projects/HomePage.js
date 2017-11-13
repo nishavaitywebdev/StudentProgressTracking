@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import ProjectList from '../projects/ProjectList';
 import { connect } from 'react-redux';
 import AdminConsole from '../users/admin/AdminConsole';
+import LoginForm from '../users/LoginForm';
 
 class HomePage extends Component {
 

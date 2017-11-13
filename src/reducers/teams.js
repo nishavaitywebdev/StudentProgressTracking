@@ -3,37 +3,34 @@
  */
 import * as types from '../../src/constants/ActionTypes';
 const initialState = {
-    teams: [1, 2, 3, 4, 5, 6],
-    teamById: {
-        1: { id: 1, members: [], ownedBy: 4, projectId: 1},
-        2: { id: 2, members: [], ownedBy: 4, projectId: 2},
-        3: { id: 3, members: [], ownedBy: 4, projectId: 3},
-        4: { id: 4, members: [], ownedBy: 4, projectId: 4},
-        5: { id: 5, members: [], ownedBy: 4, projectId: 5},
-        6: { id: 6, members: [], ownedBy: 4, projectId: 6},
-    },
+    team: null,
 }
 
 export default function teams(state = initialState, action) {
     switch (action.type) {
         case types.ADD_TEAM:
-            const teamId = state.teams.length + 1;
-            const newTeam = {...action.team, id: teamId, projectId: teamId};
-            state.teamById[teamId] = newTeam;
-            return {
-                teams: [...state.teams, teamId],
-                teamById: state.teamById,
-            }
+            return { ...state, status:'adding team', error:null, loading: true};
+        case types.ADD_TEAM_SUCCESS:
+            return { ...state, status:'added', error:null, loading: false}; //<-- authenticated
+        case types.ADD_TEAM_FAIL:// return error and make loading = false
+            error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
+            return { ...state, status:'oops', error:error, loading: false};
+
         case types.UPDATE_TEAM:
-            let newstate = {};
-            const team = action.team;
-            const id = action.team.id;
-            state.teamById[id] = team;
-            newstate = {
-                teams: state.teams,
-                teamById: state.teamById,
-            };
-            return newstate;
+            return { ...state, status:'editing team', error:null, loading: true};
+        case types.UPDATE_TEAM_SUCCESS:
+            return { ...state, status:'edited', team: action.team, error:null, loading: false}; //<-- authenticated
+        case types.UPDATE_TEAM_FAILURE:// return error and make loading = false
+            error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
+            return { ...state, user: null, status:'oops', error:error, loading: false};
+
+        case types.GET_TEAM:
+            return { ...state, status:'getting team', error:null, loading: true};
+        case types.GET_TEAM_SUCCESS:
+            return { ...state, status:'got it', team: action.team, error:null, loading: false}; //<-- authenticated
+        case types.GET_TEAM_FAILURE:// return error and make loading = false
+            error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
+            return { ...state, user: null, status:'oops', error:error, loading: false};
         default:
             return state;
     }

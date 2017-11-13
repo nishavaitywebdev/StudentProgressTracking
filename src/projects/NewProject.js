@@ -5,11 +5,16 @@ import React, { Component } from 'react';
 import { fetchGet } from 'utils/fetch';
 import { addProject } from '../actions/ProjectActions';
 import { addTeam } from '../actions/TeamActions';
+import { getUsers } from '../actions/UserActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 class NewProject extends Component {
 
+    constructor(props) {
+        super(props);
+        this.props.getUsers();
+    }
     createProject = () => {
         let projectDetails = {};
         projectDetails.ownedBy = Number(this.props.user.id);
@@ -29,65 +34,63 @@ class NewProject extends Component {
         team.members = [];
         this.props.addTeam(team);
         this.forceUpdate();
-        //
-        // fetchPost('createProject', project).then(response => {
-        //     this.props.router.push("/");
-        // });
-    }
+    };
 
     render(){
-        let facultyOptions = [];
-        const users = this.props.users;
-        Object.values(users).forEach(function(u) {
-            if(u.role === 'faculty') {
-                facultyOptions.push(<option key={u.id} value={u.id}>{u.firstname} {u.lastname}</option>);
-            }
-        });
-        return(
-            <div>
-                <div className="form-group">
-                    <label>Project Name</label>
-                    <input type="text" className="form-control" ref="projectName"/>
+        if(this.props.users!=null){
+            let facultyOptions = [];
+            const users = this.props.users;
+            Object.values(users).forEach(function(u) {
+                if(u.role === 'faculty') {
+                    facultyOptions.push(<option key={u.id} value={u.id}>{u.firstname} {u.lastname}</option>);
+                }
+            });
+            return(
+                <div>
+                    <div className="form-group">
+                        <label>Project Name</label>
+                        <input type="text" className="form-control" ref="projectName"/>
+                    </div>
+                    <div className="form-group">
+                        <label>Project Description</label>
+                        <textarea type="text" className="form-control" ref="projectDesc" size="3"/>
+                    </div>
+                    <div className="form-group">
+                        <label>Project Expected Results</label>
+                        <textarea type="text" className="form-control" ref="expectedResult" size="3"/>
+                    </div>
+                    <div className="form-group">
+                        <label>Project Team size</label>
+                        <input type="text" className="form-control" ref="teamSize" />
+                    </div>
+                    <div className="form-group">
+                        <label>Project Term</label>
+                        <input type="text" className="form-control" ref="term" />
+                    </div>
+                    <div className="form-group">
+                        <label>Project Topic</label>
+                        <input type="text" className="form-control" ref="topic" />
+                    </div>
+                    <select
+                        ref="instructor"
+                    >
+                        { facultyOptions }
+                    </select>
+                    <br/>
+                    <a className="btn btn-primary btn-block"
+                       onClick={this.createProject}>Submit</a><br/>
                 </div>
-                <div className="form-group">
-                    <label>Project Description</label>
-                    <textarea type="text" className="form-control" ref="projectDesc" size="3"/>
-                </div>
-                <div className="form-group">
-                    <label>Project Expected Results</label>
-                    <textarea type="text" className="form-control" ref="expectedResult" size="3"/>
-                </div>
-                <div className="form-group">
-                    <label>Project Team size</label>
-                    <input type="text" className="form-control" ref="teamSize" />
-                </div>
-                <div className="form-group">
-                    <label>Project Term</label>
-                    <input type="text" className="form-control" ref="term" />
-                </div>
-                <div className="form-group">
-                    <label>Project Topic</label>
-                    <input type="text" className="form-control" ref="topic" />
-                </div>
-                <select
-                    ref="instructor"
-                >
-                    { facultyOptions }
-                </select>
-                <br/>
-                <a className="btn btn-primary btn-block"
-                   onClick={this.createProject}>Submit</a><br/>
-            </div>
-        );
+            );
+        } else return (<noscript />);
     }
 }
 function mapStateToProps(state){
     return {
         user: state.userReducer.loggedIn,
-        users: state.userReducer.userById,
+        users: state.userReducer.users,
     }
 }
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({addProject: addProject, addTeam: addTeam}, dispatch);
+    return bindActionCreators({addProject: addProject, addTeam: addTeam, getUsers: getUsers}, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(NewProject)

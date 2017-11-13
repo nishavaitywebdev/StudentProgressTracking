@@ -2,7 +2,7 @@
  * Created by nishavaity on 11/8/17.
  */
 import React, { Component } from 'react';
-import { addUser } from '../../actions/UserActions';
+import { signUpUser } from '../../actions/UserActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -17,7 +17,16 @@ class NewUser extends Component{
             password:"Capstone",
             aboutMyself: "", coursesCompleted: [], projectPreferences: []
         };
-        this.props.dispatch(addUser(user));
+        event.preventDefault();
+        const opts = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+          credentials: 'same-origin',
+          body: JSON.stringify(user),
+        };
+        this.props.dispatch(signUpUser(opts));
     }
 
     render(){
@@ -53,6 +62,6 @@ class NewUser extends Component{
     }
 }
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({addUser: addUser}, dispatch);
+    return bindActionCreators({signUpUser: signUpUser}, dispatch);
 }
 export default connect(mapDispatchToProps)(NewUser)

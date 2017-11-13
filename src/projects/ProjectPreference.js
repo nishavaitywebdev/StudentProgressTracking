@@ -14,7 +14,7 @@ class ProjectPreference extends Component{
         const action = this.props.addPreference;
         const prevPreferenceProjectId = this.props.user.projectPreferences[prefId-1] === undefined ? -1:
             this.props.user.projectPreferences[prefId-1];
-        action(Number(prefId), Number(projectId));
+        action(Number(this.props.user.id), Number(prefId), Number(projectId));
         this.props.addProjectPreferredBy(Number(this.props.user.id), Number(projectId), Number(prevPreferenceProjectId));
         this.forceUpdate();
     };
@@ -82,9 +82,7 @@ ProjectPreference.propTypes = {
     projects: PropTypes.array,
 };
 function mapStateToProps(state){
-    console.log(state);
     return {
-        projects: state.projectReducer.projectById,
         user: state.userReducer.loggedIn,
     }
 }

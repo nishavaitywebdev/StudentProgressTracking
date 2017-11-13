@@ -3,7 +3,8 @@
  */
 import React, { Component } from 'react';
 import { fetchGet } from 'utils/fetch';
-import { editProject } from '../actions/ProjectActions';
+import { editProject, getProjectDetails } from '../actions/ProjectActions';
+import { getTeam } from '../actions/TeamActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AddNewTeam from '../teams/AddNewTeam';
@@ -12,30 +13,20 @@ import ProjectStatus from './ProjectStatus';
 class ProjectDetail extends Component {
     constructor(props) {
         super(props);
-    }
-    getProjectDetails () {
-        const projects = this.props.projects;
-        let projectDetails = {};
-        for(var i = 0; i < projects.length; i++){
-            if(projects[i].id === Number(this.props.params.id)) {
-                projectDetails = projects[i];
-            }
-        }
-        return projectDetails;
+        this.props.getProjectDetails(Number(this.props.params.id));
+        this.props.getTeam(Number(this.props.params.id));
     }
     render() {
-        const projectDetails = this.getProjectDetails();
-        const preferredBy = projectDetails.preferredBy;
-        const users = this.props.users;
-        const interestedStudents = preferredBy.map(function (id) {
-            return(users[id]);
-        });
-        const owner = this.props.user.id === projectDetails.ownedBy;
-        const comments = this.props.comments;
-        const projectComments = Object.values(comments).filter(function (comment) {
-            return comment.projectId === projectDetails.id;
-        });
-        return(
+        if(this.props.project!=null) {
+            const projectDetails = this.props.project;
+            const preferredBy = projectDetails.preferredBy;
+            const interestedStudents = projectDetails.interestedStudents;
+            const owner = this.props.user.id === projectDetails.ownedBy;
+            const comments = this.props.comments;
+            const projectComments = Object.values(comments).filter(function (comment) {
+                return comment.projectId === projectDetails.id;
+            });
+            return(
             <div className="container">
                 <ProjectStatus onUserInput={this.props.editProject} project={projectDetails} notOwner={!owner} />
                 <div className="form-group">
@@ -89,17 +80,18 @@ class ProjectDetail extends Component {
                 </div>
             </div>
         );
+        } else return (<noscript />);
     }
 }
 function mapStateToProps(state){
     return {
-        projects: state.projectReducer.projectById,
         user: state.userReducer.loggedIn,
-        users: state.userReducer.userById,
+        project: state.projectReducer.project,
         comments: state.commentReducer.commentById,
     }
 }
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({editProject: editProject}, dispatch);
+    return bindActionCreators({editProject: editProject, getTeam: getTeam,
+    getProjectDetails: getProjectDetails}, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetail)
