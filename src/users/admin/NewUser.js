@@ -2,9 +2,7 @@
  * Created by nishavaity on 11/8/17.
  */
 import React, { Component } from 'react';
-import { signUpUser } from '../../actions/UserActions';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class NewUser extends Component{
     createUser = () => {
@@ -13,20 +11,11 @@ class NewUser extends Component{
             lastname: this.refs.lastname.value,
             email: this.refs.email.value,
             role: this.refs.role.value,
-            username: this.refs.firstname.value+""+this.refs.lastname.value,
-            password:"Capstone",
+            username: "",
+            password:"",
             aboutMyself: "", coursesCompleted: [], projectPreferences: []
         };
-        event.preventDefault();
-        const opts = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'POST',
-          credentials: 'same-origin',
-          body: JSON.stringify(user),
-        };
-        this.props.dispatch(signUpUser(opts));
+        this.props.onUserInput(user);
     }
 
     render(){
@@ -61,7 +50,7 @@ class NewUser extends Component{
         );
     }
 }
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({signUpUser: signUpUser}, dispatch);
-}
-export default connect(mapDispatchToProps)(NewUser)
+NewUser.propTypes = {
+    onUserInput: PropTypes.func,
+};
+export default NewUser;

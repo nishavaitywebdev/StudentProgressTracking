@@ -8,7 +8,6 @@ import fetch from 'isomorphic-fetch';
 export function addProject(formValues) {
     return dispatch => {
         const request = fetchPost('createProject', formValues)
-        .then(response => response.json())
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(addProjectFailure(response));
@@ -43,7 +42,21 @@ export function editProject(formValues) {
     };
 };
 
+function postOnSlack(project){
+    const formValues = {channel: 'student-prog-tracking',
+    text: `The status of the project ${project.name} is changed to ${project.state}.`};
+    const request = fetchPost('postOnSlack', formValues);
+    return;
+//    .then((response) => {
+//        if (response.status != 200) {
+//            return;
+//        }
+//        return dispatch(editProjectSuccess(response.project));
+//    });
+}
+
 export function editProjectSuccess(project) {
+    postOnSlack(project);
     return {
         type: types.EDIT_PROJECT_SUCCESS,
         project
@@ -147,4 +160,32 @@ export function getProjectDetailsFail(error) {
     type: types.GET_PROJECT_DETAILS_FAIL,
     payload: error
   };
+}
+export function uploadDescFile(url, formData) {
+    return dispatch => {
+        const request = fetch(url, {
+            method: 'POST',
+            'Content-Type': 'multipart/form-data',
+            body: formData
+            })
+            .then(response => response.json())
+            .then((response) => {
+                if (response.status != 200) {
+                    return dispatch(uploadDescFileFailure(response));
+                }
+                return dispatch(uploadDescFileSuccess(response.project));
+            });
+    }
+}
+export function uploadDescFileSuccess(project) {
+    return {
+        type: types.UPLOAD_DESC_FILE_SUCCESS,
+        project
+    };
+}
+export function uploadDescFileFailure(err) {
+    return {
+        type: types.UPLOAD_DESC_FILE_FAIL,
+        err
+    };
 }

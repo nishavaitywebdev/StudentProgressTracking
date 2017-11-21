@@ -35,7 +35,6 @@ class ProjectList extends Component {
                             <p>
                                 <a href={`#/project/${project.id}`}
                                    className="navbar-link">{project.name}</a>
-                                <a className="">{project.desc}</a>
                                 {(user.id === project.ownedBy || user.role === 'admin') &&
                                 <a className="pull-right"
                                    href={`#/editproject/${project.id}`}>

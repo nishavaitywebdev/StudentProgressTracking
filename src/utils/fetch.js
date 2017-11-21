@@ -34,9 +34,9 @@ export const fetchGet = (url) => {
      return fetch(url, optsU).then(response => response.json());
  };
 
-// export const fetchDelete = (url) => {
-//     const optsU = Object.assign({}, opts, {
-//         method: 'DELETE',
-//     });
-//     return fetch(url, optsU).then(response => response.json());
-// };
+ export const fetchDelete = (url) => {
+     const optsU = Object.assign({}, opts, {
+         method: 'DELETE',
+     });
+     return fetch(url, optsU).then(response => response.json());
+ };

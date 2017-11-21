@@ -15,6 +15,10 @@ const initialState = {
     ],
 }
 
+const mongoose = require("mongoose");
+const ProjectSchema = require("./project.schema.server")();
+const ProjectModel = mongoose.model("ProjectModel", ProjectSchema);
+
 ProjectModelApi = {
     createProject: (project) => createProject(project),
     findOne: (project) => findProject(project.id),

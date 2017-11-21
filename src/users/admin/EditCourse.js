@@ -1,0 +1,58 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+class EditCourse extends Component{
+    editCourse = (id) => {
+    console.log(id);
+        const keyName = "course"+id;
+        const name = this.refs[keyName].value;
+        const course = {
+            id: id,
+            name: name,
+        };
+        this.props.onUserInputEdit(course);
+    }
+
+    deleteCourse = (id) => {
+        console.log(id);
+        this.props.onUserInputDelete(id);
+    }
+    render(){
+        let courseRows = [];
+        const style = {margin: '10px'};
+        const courses = this.props.courses;
+        Object.values(courses).forEach(function (course) {
+            const keyName = "course"+course.id;
+            courseRows.push(
+                <div key={course.id} className="list-group-item">
+                    <p>
+                        <input type="text" ref={keyName}
+                           className="navbar-link" defaultValue={course.name} />
+                        <a className="pull-right" onClick={() => this.deleteCourse(course.id)}  style={style}>
+                            <span className="glyphicon glyphicon-remove"></span>
+                        </a>
+                        <a className="pull-right" onClick={() => this.editCourse(course.id)}  style={style}>
+                            <span className="glyphicon glyphicon-ok"></span>
+                        </a>
+                    </p>
+                </div>
+            );
+        }.bind(this));
+        return(
+            <div>
+                <label className="form-control">Edit Course</label>
+                <div className="list-group">
+                    {
+                        courseRows
+                    }
+                </div>
+            </div>
+        );
+    }
+}
+EditCourse.propTypes = {
+    onUserInputEdit: PropTypes.func,
+    onUserInputDelete: PropTypes.func,
+    courses: PropTypes.object,
+};
+export default EditCourse;

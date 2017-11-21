@@ -6,6 +6,9 @@ const teams = {
     5: { id: 5, members: [], ownedBy: 4, projectId: 5},
     6: { id: 6, members: [], ownedBy: 4, projectId: 6},
 };
+const mongoose = require("mongoose");
+const TeamSchema = require("./team.schema.server")();
+const TeamModel = mongoose.model("TeamModel", TeamSchema);
 
 TeamModelApi = {
     createTeam: (team) => createTeam(team),
@@ -16,7 +19,7 @@ TeamModelApi = {
 };
 
 const createTeam = (team) => {
-    const id = teams.size()+1;
+    const id = teams.size+1;
     team.id = id;
     team.projectId = id;
     teams[id] = team;

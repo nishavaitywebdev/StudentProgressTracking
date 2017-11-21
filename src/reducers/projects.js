@@ -29,6 +29,14 @@ export default function projects(state = initialState, action) {
             error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
             return { ...state, user: null, status:'oops', error:error, loading: false};
 
+        case types.UPLOAD_DESC_FILE:
+            return { ...state, status:'editing project', error:null, loading: true};
+        case types.UPLOAD_DESC_FILE_SUCCESS:
+            return { ...state, project: action.project, status:'edited', error:null, loading: false}; //<-- authenticated
+        case types.EUPLOAD_DESC_FILE_FAIL:// return error and make loading = false
+            error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
+            return { ...state, user: null, status:'oops', error:error, loading: false};
+
         case types.GET_PROJECTS:
             return { ...state, status:'fetching', error:null, loading: true};
         case types.GET_PROJECTS_SUCCESS:

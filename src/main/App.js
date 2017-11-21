@@ -3,39 +3,42 @@ import React, { Component } from 'react';
 import Header from '../utils/Header';
 import Footer from '../utils/Footer';
 import { fetchGet } from 'utils/fetch';
+import { logoutUser } from '../actions/UserActions';
+import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class App extends Component {
 
     constructor(props) {
         super(props);
         this.state = {};
-        // this.getUser();
+        this.getUser();
     }
 
-    // componentWillMount() {
-    //     this.getUser();
-    // }
-    //
-    // getUser = () => {
-    //     // fetchGet('user').then(response => {
-    //     //     if (response.user) {
-    //     //         this.onLogin(response.user);
-    //     //     }
-    //     // });
-    // }
+     componentWillMount() {
+         this.getUser();
+     }
 
-    // onLogin = (user) => {
-    //     this.setState({user, isLoggedIn: true });
-    // }
-    //
-    // onLogout = () => {
-    //     this.setState({user: undefined, isLoggedIn: false });
-    // }
-    //
-    // updateParentState = (state) => {
-    //     this.setState(state);
-    // }
+    getUser = () => {
+        fetchGet('user').then(response => {
+            if (!response.user) {
+                this.onLogout(response.user);
+            }
+        });
+    }
 
+//    onLogin = (user) => {
+////        this.props.signInUserSuccess(user);
+//    }
+
+     onLogout = () => {
+        this.props.logoutUser();
+     }
+//
+//     updateParentState = (state) => {
+//         this.setState(state);
+//     }
 
     render() {
         const _style = {
@@ -49,17 +52,24 @@ class App extends Component {
         return (
                 <div>
                 <Header/>
-                <div className="container" style={_style}>
-                    { childrenWithProps }
-                </div>
+                    <div className="container" style={_style}>
+                        { childrenWithProps }
+                    </div>
                 <Footer/>
             </div>
         );
     }
 }
-
-// App.childContextTypes = {
-//     isLoggedIn: PropTypes.bool,
-// };
-
-export default App;
+App.propTypes = {
+    user: PropTypes.object,
+};
+function mapStateToProps(state){
+    return {
+        user: state.userReducer.user,
+    };
+}
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({logoutUser: logoutUser}, dispatch);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+//export default App;

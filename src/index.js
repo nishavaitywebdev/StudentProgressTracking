@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 // import App from 'main/App';
 import MainApp from 'main/MainApp';
 import LoginForm from '../src/users/LoginForm';
+import Register from '../src/users/Register';
 import Logout from '../src/users/Logout';
 import HomePage from '../src/projects/HomePage';
 import Profile from '../src/users/Profile';
@@ -17,6 +18,7 @@ const Paths = (
 <Router history={hashHistory}>
     <Route path="/App" component={MainApp}>
         <Route path="/loginform" component={LoginForm}/>
+        <Route path="/signup" component={Register}/>
         <Route path="/logout" component={Logout} />
         <Route path="/profile" component={Profile}/>
         <Route path="/profileview/:id" component={ProfileView}/>

@@ -21,6 +21,7 @@ class ProjectPreference extends Component{
     render() {
         const projects = this.props.projects;
         let projectOptions = [];
+        projectOptions.push(<option key={0} value={0}>Select a project:</option>);
         const preferences = this.props.user.projectPreferences;
         projects.forEach(function(project) {
             projectOptions.push(
@@ -35,10 +36,10 @@ class ProjectPreference extends Component{
                         <p>
                             <a>Pref 1</a>
                             <select ref="pref1" className="pull-right"
-                                    value={preferences[0] === undefined ? "": preferences[0]}
+                                    value={preferences[0] === undefined ? 0: preferences[0]}
                                     onChange={() => this.handleChange(1)}
                             >
-                                <option value="">Select a project:</option>
+
                                 {
                                     projectOptions
                                 }
@@ -49,7 +50,7 @@ class ProjectPreference extends Component{
                         <p>
                             <a>Pref 2</a>
                             <select ref="pref2" className="pull-right"
-                                    value={preferences[1] === undefined ? "": preferences[1]}
+                                    value={preferences[1] === undefined ? 0: preferences[1]}
                                     onChange={() => this.handleChange(2)}
                             >
                                 <option value="">Select a project:</option>
@@ -63,7 +64,7 @@ class ProjectPreference extends Component{
                         <p>
                             <a>Pref 3</a>
                             <select ref="pref3" className="pull-right"
-                                    value={preferences[2] === undefined ? "": preferences[2]}
+                                    value={preferences[2] === undefined ? 0: preferences[2]}
                                     onChange={() => this.handleChange(3)}
                             >
                                 <option value="">Select a project:</option>

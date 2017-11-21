@@ -3,7 +3,7 @@
  */
 import * as types from '../../src/constants/ActionTypes';
 import fetch from 'isomorphic-fetch';
-import { fetchPut, fetchGet, fetchPost } from 'utils/fetch';
+import { fetchPut, fetchGet, fetchPost, fetchDelete } from 'utils/fetch';
 
 export function addPreference(userId, preferenceId, projectId) {
     const formValues = {uid: userId, prefId: preferenceId, pid: projectId};
@@ -185,8 +185,7 @@ export function signInUserFailure(error) {
 
 export function signUpUser(formValues) {
     return dispatch => {
-        const request = fetch('register', formValues)
-        .then(response => response.json())
+        const request = fetchPut('signUp', formValues)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(signUpUserFailure(response));
@@ -196,9 +195,11 @@ export function signUpUser(formValues) {
     };
 }
 
-export function signUpUserSuccess() {
+export function signUpUserSuccess(user) {
+    console.log(user);
     return {
         type: types.SIGNUP_USER_SUCCESS,
+        user
     };
 }
 
@@ -208,4 +209,126 @@ export function signUpUserFailure(error) {
     payload: error
   };
 }
+export function registerUser(formValues) {
+    return dispatch => {
+        const request = fetch('register', formValues)
+        .then(response => response.json())
+        .then((response) => {
+            if (response.status != 200) {
+                return dispatch(registerUserFailure(response));
+            }
+            return dispatch(registerUserSuccess(response.user));
+        });
+    };
+}
 
+export function registerUserSuccess(user) {
+    return {
+        type: types.REGISTER_USER_SUCCESS,
+    };
+}
+
+export function registerUserFailure(error) {
+  return {
+    type: types.REGISTER_USER_FAIL,
+    payload: error
+  };
+}
+export function updateCourse(formValues) {
+    return dispatch => {
+        const request = fetchPut('updateCourse', formValues)
+        .then((response) => {
+            if (response.status != 200) {
+                return dispatch(updateCourseFailure(response));
+            }
+            return dispatch(updateCourseSuccess(response.courses));
+        });
+    };
+}
+export function updateCourseSuccess(courses) {
+    return {
+        type: types.UPDATE_COURSE_SUCCESS,
+        courses
+    };
+}
+export function updateCourseFailure(err) {
+    return {
+        type: types.UPDATE_COURSE_FAILURE,
+        err
+    };
+}
+
+export function addCourse(formValues) {
+    return dispatch => {
+        const request = fetchPost('addCourse', formValues)
+        .then((response) => {
+            if (response.status != 200) {
+                return dispatch(addCourseFailure(response));
+            }
+            return dispatch(addCourseSuccess(response.courses));
+        });
+    };
+}
+export function addCourseSuccess(courses) {
+    return {
+        type: types.ADD_COURSE_SUCCESS,
+        courses
+    };
+}
+export function addCourseFailure(err) {
+    return {
+        type: types.ADD_COURSE_FAILURE,
+        err
+    };
+}
+export function deleteCourse(formValues) {
+    return dispatch => {
+        const request = fetchDelete('deleteCourse/'+formValues)
+        .then((response) => {
+            if (response.status != 200) {
+                return dispatch(deleteCourseFailure(response));
+            }
+            return dispatch(deleteCourseSuccess(response.courses));
+        });
+    };
+}
+export function deleteCourseSuccess(courses) {
+    return {
+        type: types.DELETE_COURSE_SUCCESS,
+        courses
+    };
+}
+export function deleteCourseFailure(err) {
+    return {
+        type: types.DELETE_COURSE_FAILURE,
+        err
+    };
+}
+export function uploadFile(url, formData) {
+    return dispatch => {
+        const request = fetch(url, {
+            method: 'POST',
+            'Content-Type': 'multipart/form-data',
+            body: formData
+            })
+            .then(response => response.json())
+            .then((response) => {
+                if (response.status != 200) {
+                    return dispatch(uploadFileFailure(response));
+                }
+                return dispatch(uploadFileSuccess(response.user));
+            });
+    }
+}
+export function uploadFileSuccess(user) {
+    return {
+        type: types.UPLOAD_FILE_SUCCESS,
+        user
+    };
+}
+export function uploadFileFailure(err) {
+    return {
+        type: types.UPLOAD_FILE_FAIL,
+        err
+    };
+}

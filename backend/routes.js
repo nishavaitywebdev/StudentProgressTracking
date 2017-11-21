@@ -1,14 +1,44 @@
 /**
  * Created by nishavaity on 11/10/17.
  */
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination: __dirname+'/uploads',
+});
+const upload = multer({storage});
+const nodeMailer = require('nodemailer');
 const { passport } = require('./auth.js');
+const { postMessageOnSlackGroup } = require('./slack-api.js');
 const { UserModelApi } = require('./models/user/user.model.server.js');
 const { TeamModelApi } = require('./models/team/team.model.server.js');
 const { CourseModelApi } = require('./models/course/course.model.server.js');
 const { ProjectModelApi } = require('./models/project/project.model.server.js');
 
+const transporter = nodeMailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'itsnisha07@gmail.com',
+    pass: process.env.PASS || '',
+  }
+});
+
+const mailOptions = {
+  from: 'itsnisha07@gmail.com',
+  to: 'rajivkrishnan90@gmail.com',
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy!'
+};
+
+//transporter.sendMail(mailOptions, function(error, info){
+//  if (error) {
+//    console.log(error);
+//  } else {
+//    console.log('Email sent: ' + info.response);
+//  }
+//});
+
 const isAuthenticated = (req, res, next) => {
-    if(req.isAuthenticated()) {
+    if(req.isAuthenticated) {
         next();
     } else {
         res.send({status: 401});
@@ -19,23 +49,22 @@ const routes = (app) => {
     app.post("/login",
         passport.authenticate('local-login'),
         (req, res) => {
+            console.log(req.user);
             res.send({isAuthenticated: true, user: req.user });
         });
 
     app.get("/user",
         isAuthenticated,
-        (req, res) => res.send({user: req.user})
+        (req, res) => {
+        console.log(req.user);
+            res.send({user: req.user});
+        }
     );
 
     app.get("/login",
         (req, res) => {
             res.send('you are not logged in');
         });
-
-    app.post("/logout", isAuthenticated, (req, res) => {
-        req.logout();
-        res.send({ status: 200 });
-    });
     app.get("/authenticate", isAuthenticated, (req, res) => res.send({ status: 200 }));
 
     app.put("/updateUser", isAuthenticated , (req, res) => {
@@ -45,6 +74,22 @@ const routes = (app) => {
             res.send({ status: 200, user: userUpdated});
         else
             res.send({ status: 200, user: null});
+    });
+    app.put("/updateCourse", isAuthenticated , (req, res) => {
+        const course = req.body;
+        const courses = CourseModelApi.updateCourse(Number(course.id), course);
+        if(courses)
+            res.send({ status: 200, courses: courses});
+        else
+            res.send({ status: 200, courses: null});
+    });
+    app.delete("/deleteCourse/:id", isAuthenticated , (req, res) => {
+        const course = req.params.id;
+        const courses = CourseModelApi.deleteCourse(Number(course));
+        if(courses)
+            res.send({ status: 200, courses: courses});
+        else
+            res.send({ status: 200, courses: null});
     });
     app.get("/getCourses", isAuthenticated, (req, res) => {
         const courses = CourseModelApi.getCourses();
@@ -57,6 +102,22 @@ const routes = (app) => {
             res.send({ status: 200, user: newUser});
         else
             res.send({ status: 200, user: null});
+    });
+    app.put("/signUp", isAuthenticated, (req, res) => {
+        const user = req.body;
+        const newUser = UserModelApi.signUpUser(user);
+        if(newUser)
+            res.send({ status: 200, user: newUser});
+        else
+            res.send({ status: 200, user: null});
+    });
+    app.post("/addCourse", isAuthenticated, (req, res) => {
+        const course = req.body;
+        const courses = CourseModelApi.createCourse(course);
+        if(courses)
+            res.send({ status: 200, courses: courses});
+        else
+            res.send({ status: 200, courses: null});
     });
     app.post("/logout", isAuthenticated, (req, res) => {
         req.logout();
@@ -115,7 +176,7 @@ const routes = (app) => {
     });
     app.post("/addTeam", isAuthenticated, (req, res) => {
         const team = req.body;
-        const newTeam = TeamModelApi.createTeam(project);
+        const newTeam = TeamModelApi.createTeam(team);
         if(newTeam)
             res.send({ status: 200, team: newTeam});
         else
@@ -138,6 +199,64 @@ const routes = (app) => {
         const id = Number(req.params.id);
         const user = UserModelApi.findUserById(id);
         res.send({ status: 200, user: user});
+    });
+    app.post("/postOnSlack", isAuthenticated, (req, res) => {
+        const message = req.body;
+        const response = postMessageOnSlackGroup(message.channel, message.text);
+        if(response)
+            res.send({ status: 200, response: response});
+        else
+            res.send({ status: 200, response: null});
+    });
+    app.post("/api/resumeUpload/:id", isAuthenticated, upload.single("myFile"), (req, res) => {
+        const myFile        = req.file;
+        const userId        = req.params.id;
+        const originalname  = myFile.originalname; // file name on user's computer
+        const filename      = myFile.filename;     // new file name in upload folder
+        const path          = myFile.path;         // full path of uploaded file
+        const destination   = myFile.destination;  // folder where file is saved to
+        const size          = myFile.size;
+        const mimetype      = myFile.mimetype;
+        let user = UserModelApi.findUserById(Number(userId));
+        user["url"] = "/uploads/" + filename;
+        user["origFileName"] = originalname;
+        const uuser = UserModelApi.updateUser(userId, user);
+        if(uuser) {
+            res.send({ status: 200, user: uuser});
+        }
+        else{
+            res.send({ status: 200, err: error});
+        }
+    });
+    app.get("/api/resumeDownload/:id", isAuthenticated, (req, res) => {
+        let user = UserModelApi.findUserById(Number(req.params.id));
+        const url = user["url"];
+        res.download(__dirname+url, user.origFileName);
+    });
+    app.post("/api/descUpload/:id", isAuthenticated, upload.single("myFile"), (req, res) => {
+        const myFile        = req.file;
+        const projectId        = req.params.id;
+        const originalname  = myFile.originalname; // file name on user's computer
+        const filename      = myFile.filename;     // new file name in upload folder
+        const path          = myFile.path;         // full path of uploaded file
+        const destination   = myFile.destination;  // folder where file is saved to
+        const size          = myFile.size;
+        const mimetype      = myFile.mimetype;
+        let project = ProjectModelApi.findProjectById(Number(projectId));
+        project["url"] = "/uploads/" + filename;
+        project["origFileName"] = originalname;
+        const updatedProject = ProjectModelApi.updateProject(project);
+        if(updatedProject) {
+            res.send({ status: 200, project: updatedProject});
+        }
+        else{
+            res.send({ status: 200, err: error});
+        }
+    });
+    app.get("/api/descDownload/:id", isAuthenticated, (req, res) => {
+        let project = ProjectModelApi.findProjectById(Number(req.params.id));
+        const url = project["url"];
+        res.download(__dirname+url, project.origFileName);
     });
 };
 

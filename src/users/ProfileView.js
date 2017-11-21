@@ -6,6 +6,7 @@ import { getUser, getCourses } from '../actions/UserActions';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import FileDownload from 'utils/FileDownload';
 
 class ProfileView extends Component{
     constructor(props) {
@@ -16,6 +17,7 @@ class ProfileView extends Component{
 
     render(){
         const user = this.props.user;
+        const url = "/api/resumeDownload/"+user.id;
         const courses = this.props.courses;
         if(user != null && courses != null){
             let { username, firstname, lastname, email, aboutMyself, coursesCompleted, role } = user;
@@ -65,6 +67,7 @@ class ProfileView extends Component{
                     </div>
                     }
                 </form>
+                <FileDownload url={url}/>
             </div>
         );
         } else return (<noscript />);

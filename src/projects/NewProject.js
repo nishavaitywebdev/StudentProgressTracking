@@ -21,6 +21,7 @@ class NewProject extends Component {
         projectDetails.instructor = Number(this.refs.instructor.value);
         projectDetails.preferredBy = [];
         projectDetails.state = "ACTIVE";
+        projectDetails.slackChannel = (this.refs.slackChannel.value == null) ? "": this.refs.slackChannel.value;
         projectDetails.expectedResult = this.refs.expectedResult.value;
         projectDetails.teamSize = Number(this.refs.teamSize.value);
         projectDetails.term = Number(this.refs.term.value);
@@ -47,9 +48,14 @@ class NewProject extends Component {
             });
             return(
                 <div>
+                    <label className="form-control">Add Project</label>
                     <div className="form-group">
                         <label>Project Name</label>
                         <input type="text" className="form-control" ref="projectName"/>
+                    </div>
+                    <div className="form-group">
+                        <label>Project Slack Channel</label>
+                        <input type="text" className="form-control" ref="slackChannel"/>
                     </div>
                     <div className="form-group">
                         <label>Project Description</label>

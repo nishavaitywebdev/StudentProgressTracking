@@ -11,8 +11,10 @@ import LoginForm from '../users/LoginForm';
 class HomePage extends Component {
 
     render() {
-        if(this.props.user.role === 'admin') return (<AdminConsole />);
-        else return(<ProjectList />);
+        if(this.props.user != null){
+            if(this.props.user.role === 'admin') return (<AdminConsole />);
+            else return(<ProjectList />);
+        } else return(<LoginForm/>);
     }
 }
 

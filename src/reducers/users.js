@@ -3,9 +3,7 @@
  */
 import * as types from '../../src/constants/ActionTypes';
 const initialState = {
-    users: null,
-    loggedIn: null, user: null, status:null, error:null, loading: false, reqUser: null,
-    courses: null,
+    users: null, loggedIn: null, user: null, status:null, error:null, loading: false, reqUser: null, courses: null,
 }
 
 export default function users(state = initialState, action) {
@@ -21,10 +19,34 @@ export default function users(state = initialState, action) {
         case types.SIGNUP_USER:// sign in user,  set loading = true and status = signin
             return { ...state, status:'signup', error:null, loading: true};
         case types.SIGNUP_USER_SUCCESS:
-            return { ...state, status:'registered', error:null, loading: false}; //<-- authenticated
+            return { ...state, loggedIn: action.user, status:'signup success', error:null, loading: false}; //<-- authenticated
         case types.SIGNUP_USER_FAIL:// return error and make loading = false
             error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
             return { ...state, status:'signup', error:error, loading: false};
+
+        case types.REGISTER_USER:// sign in user,  set loading = true and status = signin
+            return { ...state, status:'registering', error:null, loading: true};
+        case types.REGISTER_USER_SUCCESS:
+            return { ...state, status:'registered', error:null, loading: false}; //<-- authenticated
+        case types.REGISTER_USER_FAIL:// return error and make loading = false
+            error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
+            return { ...state, status:'oops', error:error, loading: false};
+
+        case types.ADD_COURSE:// sign in user,  set loading = true and status = signin
+            return { ...state, status:'adding', error:null, loading: true};
+        case types.ADD_COURSE_SUCCESS:
+            return { ...state, courses: action.courses, status:'added', error:null, loading: false}; //<-- authenticated
+        case types.ADD_COURSE_FAIL:// return error and make loading = false
+            error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
+            return { ...state, status:'failed', error:error, loading: false};
+
+        case types.DELETE_COURSE:// sign in user,  set loading = true and status = signin
+            return { ...state, status:'deleting', error:null, loading: true};
+        case types.DELETE_COURSE_SUCCESS:
+            return { ...state, courses: action.courses, status:'deleted', error:null, loading: false}; //<-- authenticated
+        case types.DELETE_COURSE_FAIL:// return error and make loading = false
+            error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
+            return { ...state, status:'failed', error:error, loading: false};
 
         case types.LOGOUT_USER:
             return { ...state, status:'logging out', error:null, loading: true};
@@ -41,6 +63,22 @@ export default function users(state = initialState, action) {
         case types.UPDATE_USER_FAILURE:// return error and make loading = false
             error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
             return { ...state, user: null, status:'update', error:error, loading: false};
+
+        case types.UPLOAD_FILE:
+            return { ...state, status:'uploading', error:null, loading: true};
+        case types.UPLOAD_FILE_SUCCESS:
+            return { ...state, loggedIn: action.user, user: action.user, status:'updated', error:null, loading: false}; //<-- authenticated
+        case types.UPLOAD_FILE_FAILURE:// return error and make loading = false
+            error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
+            return { ...state, user: null, status:'update', error:error, loading: false};
+
+        case types.UPDATE_COURSE:
+            return { ...state, status:'updating', error:null, loading: true};
+        case types.UPDATE_COURSE_SUCCESS:
+            return { ...state, courses: action.courses, status:'updated', error:null, loading: false}; //<-- authenticated
+        case types.UPDATE_COURSE_FAILURE:// return error and make loading = false
+            error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
+            return { ...state, status:'failed', error:error, loading: false};
 
         case types.GET_COURSES:
             return { ...state, status:'fetching', error:null, loading: true};

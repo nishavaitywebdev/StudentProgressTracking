@@ -2,17 +2,22 @@
  * Created by nishavaity on 10/14/17.
  */
 import React, { Component } from 'react';
-import { editProject, getProjectDetails } from '../actions/ProjectActions';
+import { editProject, getProjectDetails, uploadDescFile } from '../actions/ProjectActions';
+import { getTeam } from '../actions/TeamActions';
 import { getUsers } from '../actions/UserActions';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import AddNewTeam from '../teams/AddNewTeam';
+import FileUpload from 'utils/FileUpload';
 
 class EditProject extends Component {
     updateProject = () => {
         let projectDetails = this.props.project;
         projectDetails.name = this.refs.projectName.value;
         projectDetails.desc = this.refs.projectDesc.value;
+        projectDetails.state = this.refs.projectStatus.value;
+        projectDetails.slackChannel = this.refs.slackChannel.value;
         projectDetails.expectedResult = this.refs.expectedResult.value;
         projectDetails.instructor = this.refs.instructor.value;
         this.props.editProject(projectDetails);
@@ -21,8 +26,13 @@ class EditProject extends Component {
     constructor(props) {
         super(props);
         this.props.getProjectDetails(Number(this.props.params.id));
+        this.props.getTeam(Number(this.props.params.id));
         this.props.getUsers();
     }
+    uploadFile = (formData) => {
+        const url = "/api/descUpload/"+this.props.project.id;
+        this.props.uploadDescFile(url, formData);
+    };
     render(){
         if(this.props.users!=null && this.props.project!=null){
             const users = this.props.users;
@@ -41,6 +51,8 @@ class EditProject extends Component {
                     facultyOptions.push(<option key={u.id} value={u.id}>{u.firstname} {u.lastname}</option>);
                 }
             });
+            const preferredBy = projectDetails.preferredBy;
+            const interestedStudents = projectDetails.interestedStudents;
             return(
                 <div>
                     <label>Project State</label>
@@ -52,9 +64,14 @@ class EditProject extends Component {
                         { statusOptions }
                     </select>
                     <br/>
+                    <FileUpload onUserInput={this.uploadFile}/>
                     <div className="form-group">
                         <label>Project Name</label>
                         <input type="text" className="form-control" defaultValue={projectDetails.name} ref="projectName"/>
+                    </div>
+                    <div className="form-group">
+                        <label>Project Slack channel</label>
+                        <input type="text" className="form-control" defaultValue={projectDetails.slackChannel} ref="slackChannel"/>
                     </div>
                     <div className="form-group">
                         <label>Project Description</label>
@@ -70,6 +87,10 @@ class EditProject extends Component {
                         { facultyOptions }
                     </select>
                     <br/>
+                    <hr/>
+                    <div className="form-group">
+                        <AddNewTeam project={projectDetails} interestedStudents={interestedStudents}/>
+                    </div>
                     <a className="btn btn-primary btn-block"
                        onClick={this.updateProject}>Submit</a>
                 </div>
@@ -89,7 +110,7 @@ function mapStateToProps(state){
     }
 }
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({editProject: editProject,
-     getProjectDetails: getProjectDetails, getUsers: getUsers}, dispatch);
+    return bindActionCreators({editProject: editProject, getTeam: getTeam,
+     getProjectDetails: getProjectDetails, getUsers: getUsers, uploadDescFile: uploadDescFile}, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(EditProject)

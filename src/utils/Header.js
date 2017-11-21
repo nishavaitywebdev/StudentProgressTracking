@@ -35,17 +35,18 @@ class Header extends React.Component {
         }
     }
     render(){
+        const user = this.props.user;
         return(
             <nav className="navbar navbar-inverse navbar-fixed-top">
                 <div className="col-sm-12">
                     <div className="col-sm-6">
                         <ul className="nav navbar-nav navbar-left">
-                            <li><a href="#/homepage">
+                            { user && <li><a href="#/homepage">
                                 <span className="glyphicon glyphicon-chevron-left white-glyphicon">
                               </span></a>
-                            </li>
+                            </li>}
                             <li href="#">
-                                <a href="/#/loginform">CAPSTONE PROJECTS</a>
+                                <a href="#/homepage">CAPSTONE PROJECTS</a>
                             </li>
                         </ul>
                     </div>
