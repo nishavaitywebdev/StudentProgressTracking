@@ -13,16 +13,11 @@ class ProjectDetail extends Component {
     constructor(props) {
         super(props);
         this.props.getProjectDetails(this.props.params.id);
-//        this.props.getTeam(Number(this.props.params.id));
     }
     render() {
         if(this.props.project!=null) {
             const projectDetails = this.props.project;
             const url = 'api/descDownload/'+projectDetails._id;
-//            const comments = this.props.comments;
-//            const projectComments = Object.values(comments).filter(function (comment) {
-//                return comment.projectId === projectDetails.id;
-//            });
             return(
                 <div className='container'>
                     <div className='form-group'>
@@ -61,29 +56,6 @@ class ProjectDetail extends Component {
                     <hr/>
                 </div>
             );
-//                <div>
-//                    <div className='row'>
-//                        <h1 className='heading-color'>Follow Up</h1>
-//                        <a type='button' className='btn btn-success'  href=''>Add Comment</a><br/>
-//                    </div>
-//                    <br/>
-//                    <ol className='comment-list'>
-//                        {
-//                            Object.values(projectComments).map(function (comment) {
-//                                return(
-//                                    <li key={comment.id} className='comment'>
-//                                        <article className='comment-body'>
-//                                            <div className='comment-content'>
-//                                                <p>{comment.commentText}</p>
-//                                            </div>
-//                                        </article>
-//                                    </li>
-//                                );
-//                            })
-//                        }
-//                        <br/>
-//                    </ol>
-//                </div>
         } else return (<noscript />);
     }
 }
