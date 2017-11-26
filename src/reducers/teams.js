@@ -24,6 +24,9 @@ export default function teams(state = initialState, action) {
             error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
             return { ...state, user: null, status:'oops', error:error, loading: false};
 
+        case types.LOGOUT_SUCCESS:
+            return { ...state, team: null, status:'logout', error:null, loading: false};
+
         case types.GET_TEAM:
             return { ...state, status:'getting team', error:null, loading: true};
         case types.GET_TEAM_SUCCESS:

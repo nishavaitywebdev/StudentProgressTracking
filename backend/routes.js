@@ -49,7 +49,6 @@ const routes = (app) => {
     app.post("/login",
         passport.authenticate('local-login'),
         (req, res) => {
-            console.log(req.user);
             res.send({isAuthenticated: true, user: req.user });
         });
 
@@ -69,7 +68,7 @@ const routes = (app) => {
 
     app.put("/updateUser", isAuthenticated , (req, res) => {
         const user = req.body;
-        const userUpdated = UserModelApi.updateUser(user.id, user);
+        const userUpdated = UserModelApi.updateUser(user._id, user);
         if(userUpdated)
             res.send({ status: 200, user: userUpdated});
         else
@@ -77,7 +76,7 @@ const routes = (app) => {
     });
     app.put("/updateCourse", isAuthenticated , (req, res) => {
         const course = req.body;
-        const courses = CourseModelApi.updateCourse(Number(course.id), course);
+        const courses = CourseModelApi.updateCourse(course._id, course);
         if(courses)
             res.send({ status: 200, courses: courses});
         else
@@ -85,7 +84,7 @@ const routes = (app) => {
     });
     app.delete("/deleteCourse/:id", isAuthenticated , (req, res) => {
         const course = req.params.id;
-        const courses = CourseModelApi.deleteCourse(Number(course));
+        const courses = CourseModelApi.deleteCourse(course);
         if(courses)
             res.send({ status: 200, courses: courses});
         else
@@ -131,7 +130,7 @@ const routes = (app) => {
         else
             res.send({ status: 200, project: null});
     });
-    app.put("/addPreference", isAuthenticated , (req, res) => {
+    app.put("/addPreference", isAuthenticated, (req, res) => {
         const obj = req.body;
         const userUpdated = UserModelApi.addPreference(obj.uid, obj.prefId, obj.pid);
         if(userUpdated)

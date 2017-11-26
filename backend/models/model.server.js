@@ -1,19 +1,22 @@
-module.exports = function () {
-    var mongoose = require("mongoose");
-    mongoose.connect("mongodb://localhost/capstone");
-    var userModel = require("./user/user.model.server")();
-    var teamModel = require("./team/team.model.server")();
-    var courseModel = require("./course/course.model.server")();
-    var projectModel = require("./project/project.model.server")();
-    var model = {
-        userModel:userModel,
-        courseModel:courseModel,
-        teamModel:teamModel,
-        projectModel:projectModel
-    };
-    projectModel.setModel(model);
-    teamModel.setModel(model);
-    userModel.setModel(model);
-    courseModel.setModel(model);
-    return model;
+
+
+const { UserModelApi } = require("./user/user.model.server");
+const { TeamModelApi } = require("./team/team.model.server");
+const { CourseModelApi } = require("./course/course.model.server");
+const { ProjectModelApi } = require("./project/project.model.server");
+
+const model = {
+    userModel:UserModelApi,
+    courseModel:CourseModelApi,
+    teamModel:TeamModelApi,
+    projectModel:ProjectModelApi
+};
+
+ProjectModelApi.setModel(model);
+TeamModelApi.setModel(model);
+UserModelApi.setModel(model);
+CourseModelApi.setModel(model);
+
+module.exports = {
+    model
 };

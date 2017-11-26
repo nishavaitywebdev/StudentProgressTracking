@@ -21,23 +21,26 @@ class EditProject extends Component {
         projectDetails.expectedResult = this.refs.expectedResult.value;
         projectDetails.instructor = this.refs.instructor.value;
         this.props.editProject(projectDetails);
-        this.props.router.push("/");
+        this.props.router.push('/');
     }
     constructor(props) {
         super(props);
-        this.props.getProjectDetails(Number(this.props.params.id));
-        this.props.getTeam(Number(this.props.params.id));
+        this.props.getProjectDetails(this.props.params.id);
+        this.props.getTeam(this.props.params.id);
         this.props.getUsers();
     }
     uploadFile = (formData) => {
-        const url = "/api/descUpload/"+this.props.project.id;
+        const url = 'api/descUpload/'+this.props.project._id;
         this.props.uploadDescFile(url, formData);
+    };
+    getInterestedStudents = (preferredBy, users) => {
+        return users.filter(user => preferredBy.includes(user._id));
     };
     render(){
         if(this.props.users!=null && this.props.project!=null){
             const users = this.props.users;
             const projectDetails = this.props.project;
-            const states = ["INACTIVE", "PROPOSED", "ACTIVE", "IN-PROGRESS", "COMPLETED"];
+            const states = ['INACTIVE', 'PROPOSED', 'ACTIVE', 'IN-PROGRESS', 'COMPLETED'];
             const currState = projectDetails.state;
             let statusOptions = [];
             states.forEach(function(state) {
@@ -46,52 +49,52 @@ class EditProject extends Component {
                 }
             });
             let facultyOptions = [];
-            Object.values(users).forEach(function(u) {
-                if(u.role === 'faculty') {
-                    facultyOptions.push(<option key={u.id} value={u.id}>{u.firstname} {u.lastname}</option>);
+            users.forEach(function(u) {
+                if(u.role === 'FACULTY') {
+                    facultyOptions.push(<option key={u._id} value={u._id}>{u.firstname} {u.lastname}</option>);
                 }
             });
             const preferredBy = projectDetails.preferredBy;
-            const interestedStudents = projectDetails.interestedStudents;
+            const interestedStudents = this.getInterestedStudents(preferredBy, users);
             return(
                 <div>
                     <label>Project State</label>
                     <br/>
                     <select
                         defaultValue={currState}
-                        ref="projectStatus"
+                        ref='projectStatus'
                     >
                         { statusOptions }
                     </select>
                     <br/>
                     <FileUpload onUserInput={this.uploadFile}/>
-                    <div className="form-group">
+                    <div className='form-group'>
                         <label>Project Name</label>
-                        <input type="text" className="form-control" defaultValue={projectDetails.name} ref="projectName"/>
+                        <input type='text' className='form-control' defaultValue={projectDetails.name} ref='projectName'/>
                     </div>
-                    <div className="form-group">
+                    <div className='form-group'>
                         <label>Project Slack channel</label>
-                        <input type="text" className="form-control" defaultValue={projectDetails.slackChannel} ref="slackChannel"/>
+                        <input type='text' className='form-control' defaultValue={projectDetails.slackChannel} ref='slackChannel'/>
                     </div>
-                    <div className="form-group">
+                    <div className='form-group'>
                         <label>Project Description</label>
-                        <textarea type="text" className="form-control" defaultValue={projectDetails.desc} ref="projectDesc" size="3"/>
+                        <textarea type='text' className='form-control' defaultValue={projectDetails.desc} ref='projectDesc' size='3'/>
                     </div>
-                    <div className="form-group">
+                    <div className='form-group'>
                         <label>Project Expected Results</label>
-                        <textarea type="text" className="form-control" defaultValue={projectDetails.expectedResult} ref="expectedResult" size="3"/>
+                        <textarea type='text' className='form-control' defaultValue={projectDetails.expectedResult} ref='expectedResult' size='3'/>
                     </div>
                     <select
-                        ref="instructor"
+                        ref='instructor'
                     >
                         { facultyOptions }
                     </select>
                     <br/>
                     <hr/>
-                    <div className="form-group">
+                    <div className='form-group'>
                         <AddNewTeam project={projectDetails} interestedStudents={interestedStudents}/>
                     </div>
-                    <a className="btn btn-primary btn-block"
+                    <a className='btn btn-primary btn-block'
                        onClick={this.updateProject}>Submit</a>
                 </div>
             );

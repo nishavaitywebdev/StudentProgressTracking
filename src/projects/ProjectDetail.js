@@ -12,49 +12,49 @@ import FileDownload from 'utils/FileDownload';
 class ProjectDetail extends Component {
     constructor(props) {
         super(props);
-        this.props.getProjectDetails(Number(this.props.params.id));
+        this.props.getProjectDetails(this.props.params.id);
 //        this.props.getTeam(Number(this.props.params.id));
     }
     render() {
         if(this.props.project!=null) {
             const projectDetails = this.props.project;
-            const url = "/api/descDownload/"+projectDetails.id;
+            const url = 'api/descDownload/'+projectDetails._id;
 //            const comments = this.props.comments;
 //            const projectComments = Object.values(comments).filter(function (comment) {
 //                return comment.projectId === projectDetails.id;
 //            });
             return(
-                <div className="container">
-                    <div className="form-group">
+                <div className='container'>
+                    <div className='form-group'>
                         <label>Project Name</label>
-                        <input type="text" className="form-control"
+                        <input type='text' className='form-control'
                                value={projectDetails.name} disabled={true}/>
                     </div>
-                    <div className="form-group">
+                    <div className='form-group'>
                         <label>Project State</label>
-                        <input type="text" className="form-control"
+                        <input type='text' className='form-control'
                                value={projectDetails.state} disabled={true}/>
                     </div>
-                    <div className="form-group">
+                    <div className='form-group'>
                         <label>Project Slack channel</label>
-                        <input type="text" className="form-control" id=""
+                        <input type='text' className='form-control' id=''
                                   disabled={true}
                            value={projectDetails.slackChannel}
                         />
                     </div>
-                    <label className="form-control">Download Details file</label>
+                    <label className='form-control'>Download Details file</label>
                     <FileDownload url={url}/>
-                    <div className="form-group">
+                    <div className='form-group'>
                         <label>Project Description</label>
-                        <textarea type="text" className="form-control" id=""
-                                  disabled={true} size="3"
+                        <textarea type='text' className='form-control' id=''
+                                  disabled={true} size='3'
                            value={projectDetails.desc}
                         />
                     </div>
-                    <div className="form-group">
+                    <div className='form-group'>
                         <label>Expected Results</label>
-                        <textarea type="text" className="form-control" id=""
-                                  disabled={true} size="3"
+                        <textarea type='text' className='form-control' id=''
+                                  disabled={true} size='3'
                                   value={projectDetails.expectedResult}
                         />
                     </div>
@@ -62,18 +62,18 @@ class ProjectDetail extends Component {
                 </div>
             );
 //                <div>
-//                    <div className="row">
-//                        <h1 className="heading-color">Follow Up</h1>
-//                        <a type="button" className="btn btn-success"  href="">Add Comment</a><br/>
+//                    <div className='row'>
+//                        <h1 className='heading-color'>Follow Up</h1>
+//                        <a type='button' className='btn btn-success'  href=''>Add Comment</a><br/>
 //                    </div>
 //                    <br/>
-//                    <ol className="comment-list">
+//                    <ol className='comment-list'>
 //                        {
 //                            Object.values(projectComments).map(function (comment) {
 //                                return(
-//                                    <li key={comment.id} className="comment">
-//                                        <article className="comment-body">
-//                                            <div className="comment-content">
+//                                    <li key={comment.id} className='comment'>
+//                                        <article className='comment-body'>
+//                                            <div className='comment-content'>
 //                                                <p>{comment.commentText}</p>
 //                                            </div>
 //                                        </article>

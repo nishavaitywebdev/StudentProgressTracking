@@ -12,7 +12,7 @@ class HomePage extends Component {
 
     render() {
         if(this.props.user != null){
-            if(this.props.user.role === 'admin') return (<AdminConsole />);
+            if(this.props.user.role === 'ADMIN') return (<AdminConsole />);
             else return(<ProjectList />);
         } else return(<LoginForm/>);
     }

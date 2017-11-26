@@ -18,14 +18,14 @@ class Profile extends Component{
         let courseValues = [];
         const style = {marginRight: '10px'};
         const courses = this.props.courses;
-        Object.entries(courses).forEach( ([key, value]) => {
+        courses.forEach((course) => {
             courseValues.push(
                 <div>
                     <label>
-                        <input key={key} id={key} name={value.name} type="checkbox"
-                        checked={coursesCompleted.includes(Number(key))}
+                        <input key={course._id} id={course._id} name={course.name} type="checkbox"
+                        checked={coursesCompleted.includes(course._id)}
                         onChange={this.handleChange} style={style}/>
-                         {value.name}
+                         {course.name}
                     </label>
                 </div>
             );
@@ -34,7 +34,7 @@ class Profile extends Component{
     };
     handleChange = (event) => {
         event.preventDefault();
-        const key = Number(event.target.id);
+        const key = event.target.id;
         let user = this.props.user;
         let coursesCompleted = user.coursesCompleted;
         if(coursesCompleted.includes(key))
@@ -60,7 +60,7 @@ class Profile extends Component{
         this.forceUpdate();
     };
     uploadFile = (formData) => {
-        const url = "/api/resumeUpload/"+this.props.user.id;
+        const url = "api/resumeUpload/"+this.props.user._id;
         this.props.uploadFile(url, formData);
     };
     alertShow = (alert) => {
@@ -112,7 +112,7 @@ class Profile extends Component{
                             <input type="text" defaultValue={aboutMyself} className="form-control" ref="aboutMyself"
                                    placeholder="About me"/>
                         </div>
-                        { role == "student" &&
+                        { role == "STUDENT" &&
                             <div className="form-group">
                                 <label htmlFor="courses">Courses Completed</label><br/>
                                 {
@@ -135,7 +135,7 @@ class Profile extends Component{
 }
 Profile.propTypes = {
     user: PropTypes.object,
-    courses: PropTypes.object,
+    courses: PropTypes.array,
 };
 function mapStateToProps(state){
     return {

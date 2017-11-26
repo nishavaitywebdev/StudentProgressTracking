@@ -38,10 +38,10 @@ class NewUser extends Component{
                     <label>Role</label>
                     <select ref="role" className="pull-right">
                         <option value="">Select a role</option>
-                        <option value="student">Student</option>
-                        <option value="faculty">Faculty</option>
-                        <option value="admin">Admin</option>
-                        <option value="sponsor">Sponsor</option>
+                        <option value="STUDENT">Student</option>
+                        <option value="FACULTY">Faculty</option>
+                        <option value="ADMIN">Admin</option>
+                        <option value="SPONSOR">Sponsor</option>
                     </select>
                 </div>
                 <a className="btn btn-primary btn-block"

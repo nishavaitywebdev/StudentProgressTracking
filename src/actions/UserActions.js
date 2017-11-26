@@ -8,7 +8,7 @@ import { fetchPut, fetchGet, fetchPost, fetchDelete } from 'utils/fetch';
 export function addPreference(userId, preferenceId, projectId) {
     const formValues = {uid: userId, prefId: preferenceId, pid: projectId};
     return dispatch => {
-        const request = fetchPut('addPreference', formValues)
+        const request = fetchPut('api/addPreference', formValues)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(addProjectPreferenceFailure(response));
@@ -34,7 +34,7 @@ export function addProjectPreferenceFailure(error) {
 
 export function updateUser(formValues) {
     return dispatch => {
-        const request = fetchPut('updateUser', formValues)
+        const request = fetchPut('api/user', formValues)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(updateUserFailure(response));
@@ -57,7 +57,7 @@ export function updateUserFailure(user) {
 }
 export function logoutUser() {
     return dispatch => {
-        const logout = fetchPost('logout')
+        const logout = fetchPost('api/logout')
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(logoutFailure(response));
@@ -79,7 +79,7 @@ export function logoutFailure(err) {
 }
 export function getCourses() {
     return dispatch => {
-        const courses = fetchGet('getCourses')
+        const courses = fetchGet('api/getAllCourses')
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(getCoursesFailure(response));
@@ -106,7 +106,7 @@ export function getCoursesFailure(error) {
 
 export function getUsers() {
     return dispatch => {
-        const users = fetchGet('getUsers')
+        const users = fetchGet('api/getAllUsers')
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(getUsersFailure(response));
@@ -132,7 +132,7 @@ export function getUsersFailure(error) {
 
 export function getUser(uid) {
     return dispatch => {
-        const user = fetchGet(`getUser/${uid}`)
+        const user = fetchGet(`api/user/${uid}`)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(getUserFailure(response));
@@ -158,7 +158,7 @@ export function getUserFailure(error) {
 
 export function signInUser(formValues) {
     return dispatch => {
-        const request = fetch('login', formValues)
+        const request = fetch('api/login', formValues)
         .then(response => response.json())
         .then((jsonResponse) => {
             if (!jsonResponse.isAuthenticated) {
@@ -185,7 +185,7 @@ export function signInUserFailure(error) {
 
 export function signUpUser(formValues) {
     return dispatch => {
-        const request = fetchPut('signUp', formValues)
+        const request = fetchPut('api/signup', formValues)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(signUpUserFailure(response));
@@ -211,7 +211,7 @@ export function signUpUserFailure(error) {
 }
 export function registerUser(formValues) {
     return dispatch => {
-        const request = fetch('register', formValues)
+        const request = fetch('api/user', formValues)
         .then(response => response.json())
         .then((response) => {
             if (response.status != 200) {
@@ -236,7 +236,7 @@ export function registerUserFailure(error) {
 }
 export function updateCourse(formValues) {
     return dispatch => {
-        const request = fetchPut('updateCourse', formValues)
+        const request = fetchPut('api/course', formValues)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(updateCourseFailure(response));
@@ -260,7 +260,7 @@ export function updateCourseFailure(err) {
 
 export function addCourse(formValues) {
     return dispatch => {
-        const request = fetchPost('addCourse', formValues)
+        const request = fetchPost('api/course', formValues)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(addCourseFailure(response));
@@ -283,7 +283,7 @@ export function addCourseFailure(err) {
 }
 export function deleteCourse(formValues) {
     return dispatch => {
-        const request = fetchDelete('deleteCourse/'+formValues)
+        const request = fetchDelete('api/course/'+formValues)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(deleteCourseFailure(response));

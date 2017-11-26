@@ -31,13 +31,13 @@ class ProjectList extends Component {
                     && (this.props.topicFilter === "" || project.topic === this.props.topicFilter)
                     && (this.props.termFilter === "" ||  project.term === this.props.termFilter)) {
                     rows.push(
-                        <li key={project.id} className="list-group-item">
+                        <li key={project._id} className="list-group-item">
                             <p>
-                                <a href={`#/project/${project.id}`}
+                                <a href={`#/project/${project._id}`}
                                    className="navbar-link">{project.name}</a>
-                                {(user.id === project.ownedBy || user.role === 'admin') &&
+                                {(user._id === project.ownedBy || user._id === project.instructor || user.role === 'ADMIN') &&
                                 <a className="pull-right"
-                                   href={`#/editproject/${project.id}`}>
+                                   href={`#/editproject/${project._id}`}>
                                     <span className="glyphicon glyphicon-cog">
                                     </span>
                                 </a>
@@ -61,7 +61,7 @@ class ProjectList extends Component {
                             }
                         </ul>
                     </div><hr/>
-                    {user.role === "student" &&
+                    {user.role === "STUDENT" &&
                         <ProjectPreference projects={projects}/>
                     }
                 </div>

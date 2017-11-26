@@ -7,7 +7,7 @@ import fetch from 'isomorphic-fetch';
 
 export function addProject(formValues) {
     return dispatch => {
-        const request = fetchPost('createProject', formValues)
+        const request = fetchPost('api/project', formValues)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(addProjectFailure(response));
@@ -32,7 +32,7 @@ export function addProjectFailure(error) {
 
 export function editProject(formValues) {
     return dispatch => {
-        const request = fetchPut('editProject', formValues)
+        const request = fetchPut('api/project', formValues)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(editProjectFailure(response));
@@ -43,9 +43,9 @@ export function editProject(formValues) {
 };
 
 function postOnSlack(project){
-    const formValues = {channel: 'student-prog-tracking',
+    const formValues = {channel: 'capstone-project',
     text: `The status of the project ${project.name} is changed to ${project.state}.`};
-    const request = fetchPost('postOnSlack', formValues);
+    const request = fetchPost('api/postOnSlack', formValues);
     return;
 //    .then((response) => {
 //        if (response.status != 200) {
@@ -82,7 +82,7 @@ export const setFilters = (topicFilter, termFilter) => ({
 export function addProjectPreferredBy(userId, projectId, prevPreferenceProjectId) {
     const obj = { user: userId, projId: projectId, prevPreferenceProjectId: prevPreferenceProjectId};
     return dispatch => {
-        const request = fetchPut('addPreferredBy', obj)
+        const request = fetchPut('api/addPreferredBy', obj)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(addProjectPreferredByFailure(response));
@@ -112,7 +112,7 @@ export const deleteProject = (pId) => ({
 
 export function getProjects() {
     return dispatch => {
-        const projects = fetchGet('getProjects')
+        const projects = fetchGet('api/getAllProjects')
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(getProjectsFailure(response));
@@ -138,7 +138,7 @@ export function getProjectsFailure(error) {
 
 export function getProjectDetails(pid) {
     return dispatch => {
-        const request = fetchGet(`getProjectDetails/${pid}`)
+        const request = fetchGet(`api/getProjectDetails/${pid}`)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(getProjectDetailsFail(response));

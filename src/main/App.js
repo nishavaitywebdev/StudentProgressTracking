@@ -21,7 +21,7 @@ class App extends Component {
      }
 
     getUser = () => {
-        fetchGet('user').then(response => {
+        fetchGet('api/user').then(response => {
             if (!response.user) {
                 this.onLogout(response.user);
             }

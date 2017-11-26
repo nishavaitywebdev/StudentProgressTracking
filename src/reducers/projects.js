@@ -53,9 +53,13 @@ export default function projects(state = initialState, action) {
             error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
             return { ...state, courses: null, status:'error', error:error, loading: false};
 
+        case types.LOGOUT_SUCCESS:
+            return { ...state, projects: null, project: null, filterText: '', topicFilter: '', termFilter: '',
+            status:'logout', error:null, loading: false};
+
         case types.DELETE_PROJECT:
             const projectId = action.pId;
-            let deletedProjects = currProjects.filter(project => project.id != projectId);
+            let deletedProjects = currProjects.filter(project => project._id != projectId);
             return {
                 projects: state.projects,
                 projectById: deletedProjects,

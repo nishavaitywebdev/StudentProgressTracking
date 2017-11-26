@@ -7,12 +7,14 @@ const { UserModelApi } = require('./models/user/user.model.server.js');
 var session      = require('express-session');
 
 const authenticateLocalUser = (username, password, done) => {
-    const user = UserModelApi.findUserByCredentials(username, password);
-    if(user) {
+    return UserModelApi.findUserByCredentials({ username, password })
+    .then((user) => {
+      if(user) {
         return done(null, user);
-    } else {
+      } else {
         return done(null, {});
-    }
+      }
+    });
 };
 
 const authenticate = (app) => {
@@ -21,17 +23,19 @@ const authenticate = (app) => {
     app.use(passport.session());
 
     passport.serializeUser(function(user, done) {
-        done(null, user.id);
+        done(null, user._id);
     });
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-        const user = UserModelApi.findOne(id);
-        if(user){
-            return done(null, user);
-        } else{
-            return done(null, {});
-        }
+        return UserModelApi.findOne(id)
+        .then((user) => {
+            if(user){
+                return done(null, user);
+            } else{
+                return done(null, {});
+            }
+        })
     });
 
     passport.use('local-login', new LocalStrategy(

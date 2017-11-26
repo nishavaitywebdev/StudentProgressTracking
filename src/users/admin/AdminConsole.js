@@ -7,7 +7,7 @@ import AddCourse from './AddCourse';
 import EditCourse from './EditCourse';
 import NewProject from '../../projects/NewProject';
 import ProjectList from '../../projects/ProjectList';
-import { addCourse, editCourse, deleteCourse, getCourses, registerUser } from '../../actions/UserActions';
+import { addCourse, updateCourse, deleteCourse, getCourses, registerUser } from '../../actions/UserActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -34,7 +34,7 @@ class AdminConsole extends Component{
     }
     editCourse = (course) => {
         event.preventDefault();
-        this.props.editCourse(course);
+        this.props.updateCourse(course);
     }
     deleteCourse = (course) => {
         event.preventDefault();
@@ -65,7 +65,7 @@ function mapStateToProps(state){
 }
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({registerUser: registerUser,
-    addCourse: addCourse, editCourse: editCourse,
+    addCourse: addCourse, updateCourse: updateCourse,
     deleteCourse: deleteCourse, getCourses: getCourses}, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AdminConsole)

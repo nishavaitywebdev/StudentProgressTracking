@@ -3,10 +3,12 @@
  */
 const { routes } = require('./routes.js');
 const { authenticate } = require('./auth.js');
+const { services } = require('./app.js');
 
 const initiate = (app) => {
     authenticate(app);
-    routes(app);
+    services(app);
+//    routes(app);
 };
 
 module.exports = {

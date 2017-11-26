@@ -17,21 +17,21 @@ class NewProject extends Component {
     }
     createProject = () => {
         let projectDetails = {};
-        projectDetails.ownedBy = Number(this.props.user.id);
-        projectDetails.instructor = Number(this.refs.instructor.value);
+        projectDetails.ownedBy = this.props.user._id;
+        projectDetails.instructor = this.refs.instructor.value;
         projectDetails.preferredBy = [];
         projectDetails.state = "ACTIVE";
         projectDetails.slackChannel = (this.refs.slackChannel.value == null) ? "": this.refs.slackChannel.value;
         projectDetails.expectedResult = this.refs.expectedResult.value;
         projectDetails.teamSize = Number(this.refs.teamSize.value);
-        projectDetails.term = Number(this.refs.term.value);
+        projectDetails.term = this.refs.term.value;
         projectDetails.name = this.refs.projectName.value;
         projectDetails.topic = this.refs.topic.value;
         projectDetails.desc = this.refs.projectDesc.value;
         this.props.addProject(projectDetails);
 
         let team = {};
-        team.ownedBy = Number(this.props.user.id);
+        team.ownedBy = Number(this.props.user._id);
         team.members = [];
         this.props.addTeam(team);
         this.forceUpdate();
@@ -41,9 +41,10 @@ class NewProject extends Component {
         if(this.props.users!=null){
             let facultyOptions = [];
             const users = this.props.users;
+            facultyOptions.push(<option key={"k"} value={null}>Select</option>);
             Object.values(users).forEach(function(u) {
-                if(u.role === 'faculty') {
-                    facultyOptions.push(<option key={u.id} value={u.id}>{u.firstname} {u.lastname}</option>);
+                if(u.role === 'FACULTY') {
+                    facultyOptions.push(<option key={u._id} value={u._id}>{u.firstname} {u.lastname}</option>);
                 }
             });
             return(

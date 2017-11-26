@@ -51,7 +51,7 @@ export default function users(state = initialState, action) {
         case types.LOGOUT_USER:
             return { ...state, status:'logging out', error:null, loading: true};
         case types.LOGOUT_SUCCESS:
-            return { ...state, loggedIn: null, user: null, status:'logout', error:null, loading: false}; //<-- authenticated
+            return { ...state, users: null, loggedIn: null, user: null, reqUser: null, courses: null, status:'logout', error:null, loading: false}; //<-- authenticated
         case types.LOGOUT_FAIL:// return error and make loading = false
             error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
             return { ...state, status:'oops', error:error, loading: false};

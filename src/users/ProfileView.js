@@ -12,22 +12,20 @@ class ProfileView extends Component{
     constructor(props) {
         super(props);
         this.props.getCourses();
-        this.props.getUser(Number(this.props.params.id));
+        this.props.getUser(this.props.params.id);
     }
-
     render(){
         const user = this.props.user;
-        const url = "/api/resumeDownload/"+user.id;
+        const url = "/api/resumeDownload/"+user._id;
         const courses = this.props.courses;
         if(user != null && courses != null){
             let { username, firstname, lastname, email, aboutMyself, coursesCompleted, role } = user;
             let courseValues = [];
-
-            Object.entries(courses).forEach( ([key, value]) => {
-                if(coursesCompleted.includes(Number(key))) {
+            courses.forEach(course => {
+                if(coursesCompleted.includes(course._id)) {
                     courseValues.push(
                         <div>
-                            <input id={key} type="text" disabled="true" value={value} />
+                            <input id={course._id} type="text" disabled="true" value={course.name} />
                         </div>
                     );
                 }
@@ -58,15 +56,16 @@ class ProfileView extends Component{
                                placeholder="About me"/>
                     </div>
                     }
-                    { role == "student" &&
-                    <div className="form-group">
-                        <label htmlFor="courses">Courses Completed</label><br/>
-                        {
-                            courseValues
-                        }
-                    </div>
+                    { role === "STUDENT" &&
+                        <div className="form-group">
+                            <label htmlFor="courses">Courses Completed</label><br/>
+                            {
+                                courseValues
+                            }
+                        </div>
                     }
                 </form>
+                <label className="form-control">Download resume</label><br/>
                 <FileDownload url={url}/>
             </div>
         );
@@ -75,7 +74,7 @@ class ProfileView extends Component{
 }
 ProfileView.propTypes = {
     user: PropTypes.object,
-    courses: PropTypes.object,
+    courses: PropTypes.array,
 };
 function mapStateToProps(state){
     return {

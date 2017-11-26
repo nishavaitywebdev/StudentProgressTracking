@@ -14,9 +14,8 @@ class ProjectPreference extends Component{
         const action = this.props.addPreference;
         const prevPreferenceProjectId = this.props.user.projectPreferences[prefId-1] === undefined ? -1:
             this.props.user.projectPreferences[prefId-1];
-        action(Number(this.props.user.id), Number(prefId), Number(projectId));
-        this.props.addProjectPreferredBy(Number(this.props.user.id), Number(projectId), Number(prevPreferenceProjectId));
-        this.forceUpdate();
+        if(projectId != 0) action(this.props.user._id, Number(prefId), projectId);
+        this.props.addProjectPreferredBy(this.props.user._id, projectId, prevPreferenceProjectId);
     };
     render() {
         const projects = this.props.projects;
@@ -25,7 +24,7 @@ class ProjectPreference extends Component{
         const preferences = this.props.user.projectPreferences;
         projects.forEach(function(project) {
             projectOptions.push(
-                <option key={project.id} value={project.id}>{project.name}</option>
+                <option key={project._id} value={project._id}>{project.name}</option>
             );
         });
         return (
@@ -53,7 +52,6 @@ class ProjectPreference extends Component{
                                     value={preferences[1] === undefined ? 0: preferences[1]}
                                     onChange={() => this.handleChange(2)}
                             >
-                                <option value="">Select a project:</option>
                                 {
                                     projectOptions
                                 }
@@ -67,7 +65,6 @@ class ProjectPreference extends Component{
                                     value={preferences[2] === undefined ? 0: preferences[2]}
                                     onChange={() => this.handleChange(3)}
                             >
-                                <option value="">Select a project:</option>
                                 {
                                     projectOptions
                                 }

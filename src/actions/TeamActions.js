@@ -6,7 +6,7 @@ import { fetchPut, fetchGet, fetchPost } from 'utils/fetch';
 
 export function addTeam(team) {
     return dispatch => {
-        const request = fetchPost('addTeam', team)
+        const request = fetchPost('api/team', team)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(addTeamFailure(response));
@@ -29,7 +29,7 @@ export function addTeamFailure(err) {
 };
 export function updateTeam(team) {
     return dispatch => {
-        const request = fetchPut('updateTeam', team)
+        const request = fetchPut('api/team', team)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(updateTeamFailure(response));
@@ -52,7 +52,7 @@ export function updateTeamFailure(err) {
 };
 export function getTeam(tid) {
     return dispatch => {
-        const request = fetchGet(`getTeam/${tid}`)
+        const request = fetchGet(`api/team/${tid}`)
         .then((response) => {
             if (response.status != 200) {
                 return dispatch(getTeamFailure(response));

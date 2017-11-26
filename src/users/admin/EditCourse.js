@@ -14,7 +14,6 @@ class EditCourse extends Component{
     }
 
     deleteCourse = (id) => {
-        console.log(id);
         this.props.onUserInputDelete(id);
     }
     render(){
@@ -22,16 +21,16 @@ class EditCourse extends Component{
         const style = {margin: '10px'};
         const courses = this.props.courses;
         Object.values(courses).forEach(function (course) {
-            const keyName = "course"+course.id;
+            const keyName = "course"+course._id;
             courseRows.push(
-                <div key={course.id} className="list-group-item">
+                <div key={course._id} className="list-group-item">
                     <p>
                         <input type="text" ref={keyName}
                            className="navbar-link" defaultValue={course.name} />
-                        <a className="pull-right" onClick={() => this.deleteCourse(course.id)}  style={style}>
+                        <a className="pull-right" onClick={() => this.deleteCourse(course._id)}  style={style}>
                             <span className="glyphicon glyphicon-remove"></span>
                         </a>
-                        <a className="pull-right" onClick={() => this.editCourse(course.id)}  style={style}>
+                        <a className="pull-right" onClick={() => this.editCourse(course._id)}  style={style}>
                             <span className="glyphicon glyphicon-ok"></span>
                         </a>
                     </p>

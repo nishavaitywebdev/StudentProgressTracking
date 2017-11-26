@@ -488,7 +488,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function addPreference(userId, preferenceId, projectId) {
     var formValues = { uid: userId, prefId: preferenceId, pid: projectId };
     return function (dispatch) {
-        var request = (0, _fetch.fetchPut)('addPreference', formValues).then(function (response) {
+        var request = (0, _fetch.fetchPut)('api/addPreference', formValues).then(function (response) {
             if (response.status != 200) {
                 return dispatch(addProjectPreferenceFailure(response));
             }
@@ -514,7 +514,7 @@ function addProjectPreferenceFailure(error) {
 
 function updateUser(formValues) {
     return function (dispatch) {
-        var request = (0, _fetch.fetchPut)('updateUser', formValues).then(function (response) {
+        var request = (0, _fetch.fetchPut)('api/user', formValues).then(function (response) {
             if (response.status != 200) {
                 return dispatch(updateUserFailure(response));
             }
@@ -536,7 +536,7 @@ function updateUserFailure(user) {
 }
 function logoutUser() {
     return function (dispatch) {
-        var logout = (0, _fetch.fetchPost)('logout').then(function (response) {
+        var logout = (0, _fetch.fetchPost)('api/logout').then(function (response) {
             if (response.status != 200) {
                 return dispatch(logoutFailure(response));
             }
@@ -557,7 +557,7 @@ function logoutFailure(err) {
 }
 function getCourses() {
     return function (dispatch) {
-        var courses = (0, _fetch.fetchGet)('getCourses').then(function (response) {
+        var courses = (0, _fetch.fetchGet)('api/getAllCourses').then(function (response) {
             if (response.status != 200) {
                 return dispatch(getCoursesFailure(response));
             }
@@ -582,7 +582,7 @@ function getCoursesFailure(error) {
 
 function getUsers() {
     return function (dispatch) {
-        var users = (0, _fetch.fetchGet)('getUsers').then(function (response) {
+        var users = (0, _fetch.fetchGet)('api/getAllUsers').then(function (response) {
             if (response.status != 200) {
                 return dispatch(getUsersFailure(response));
             }
@@ -607,7 +607,7 @@ function getUsersFailure(error) {
 
 function getUser(uid) {
     return function (dispatch) {
-        var user = (0, _fetch.fetchGet)('getUser/' + uid).then(function (response) {
+        var user = (0, _fetch.fetchGet)('api/user/' + uid).then(function (response) {
             if (response.status != 200) {
                 return dispatch(getUserFailure(response));
             }
@@ -632,7 +632,7 @@ function getUserFailure(error) {
 
 function signInUser(formValues) {
     return function (dispatch) {
-        var request = (0, _isomorphicFetch2.default)('login', formValues).then(function (response) {
+        var request = (0, _isomorphicFetch2.default)('api/login', formValues).then(function (response) {
             return response.json();
         }).then(function (jsonResponse) {
             if (!jsonResponse.isAuthenticated) {
@@ -659,7 +659,7 @@ function signInUserFailure(error) {
 
 function signUpUser(formValues) {
     return function (dispatch) {
-        var request = (0, _fetch.fetchPut)('signUp', formValues).then(function (response) {
+        var request = (0, _fetch.fetchPut)('api/signup', formValues).then(function (response) {
             if (response.status != 200) {
                 return dispatch(signUpUserFailure(response));
             }
@@ -684,7 +684,7 @@ function signUpUserFailure(error) {
 }
 function registerUser(formValues) {
     return function (dispatch) {
-        var request = (0, _isomorphicFetch2.default)('register', formValues).then(function (response) {
+        var request = (0, _isomorphicFetch2.default)('api/user', formValues).then(function (response) {
             return response.json();
         }).then(function (response) {
             if (response.status != 200) {
@@ -709,7 +709,7 @@ function registerUserFailure(error) {
 }
 function updateCourse(formValues) {
     return function (dispatch) {
-        var request = (0, _fetch.fetchPut)('updateCourse', formValues).then(function (response) {
+        var request = (0, _fetch.fetchPut)('api/course', formValues).then(function (response) {
             if (response.status != 200) {
                 return dispatch(updateCourseFailure(response));
             }
@@ -732,7 +732,7 @@ function updateCourseFailure(err) {
 
 function addCourse(formValues) {
     return function (dispatch) {
-        var request = (0, _fetch.fetchPost)('addCourse', formValues).then(function (response) {
+        var request = (0, _fetch.fetchPost)('api/course', formValues).then(function (response) {
             if (response.status != 200) {
                 return dispatch(addCourseFailure(response));
             }
@@ -754,7 +754,7 @@ function addCourseFailure(err) {
 }
 function deleteCourse(formValues) {
     return function (dispatch) {
-        var request = (0, _fetch.fetchDelete)('deleteCourse/' + formValues).then(function (response) {
+        var request = (0, _fetch.fetchDelete)('api/course/' + formValues).then(function (response) {
             if (response.status != 200) {
                 return dispatch(deleteCourseFailure(response));
             }
@@ -1250,6 +1250,10 @@ var GET_PROJECT_DETAILS = exports.GET_PROJECT_DETAILS = 'GET_PROJECT_DETAILS';
 var GET_PROJECT_DETAILS_SUCCESS = exports.GET_PROJECT_DETAILS_SUCCESS = 'GET_PROJECT_DETAILS_SUCCESS';
 var GET_PROJECT_DETAILS_FAIL = exports.GET_PROJECT_DETAILS_FAIL = 'GET_PROJECT_DETAILS_FAIL';
 
+var UPLOAD_DESC_FILE = exports.UPLOAD_DESC_FILE = 'UPLOAD_DESC_FILE';
+var UPLOAD_DESC_FILE_SUCCESS = exports.UPLOAD_DESC_FILE_SUCCESS = 'UPLOAD_DESC_FILE_SUCCESS';
+var UPLOAD_DESC_FILE_FAILURE = exports.UPLOAD_DESC_FILE_FAILURE = 'UPLOAD_DESC_FILE_FAILURE';
+
 var FILTER_PROJECT = exports.FILTER_PROJECT = 'FILTER_PROJECT';
 
 // user
@@ -1292,10 +1296,6 @@ var UPDATE_COURSE_FAILURE = exports.UPDATE_COURSE_FAILURE = 'UPDATE_COURSE_FAILU
 var UPLOAD_FILE = exports.UPLOAD_FILE = 'UPLOAD_FILE';
 var UPLOAD_FILE_SUCCESS = exports.UPLOAD_FILE_SUCCESS = 'UPLOAD_FILE_SUCCESS';
 var UPLOAD_FILE_FAILURE = exports.UPLOAD_FILE_FAILURE = 'UPLOAD_FILE_FAILURE';
-
-var UPLOAD_DESC_FILE = exports.UPLOAD_DESC_FILE = 'UPLOAD_DESC_FILE';
-var UPLOAD_DESC_FILE_SUCCESS = exports.UPLOAD_DESC_FILE_SUCCESS = 'UPLOAD_DESC_FILE_SUCCESS';
-var UPLOAD_DESC_FILE_FAILURE = exports.UPLOAD_DESC_FILE_FAILURE = 'UPLOAD_DESC_FILE_FAILURE';
 
 var DELETE_COURSE = exports.DELETE_COURSE = 'DELETE_COURSE';
 var DELETE_COURSE_SUCCESS = exports.DELETE_COURSE_SUCCESS = 'DELETE_COURSE_SUCCESS';
@@ -1908,7 +1908,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function addProject(formValues) {
     return function (dispatch) {
-        var request = (0, _fetch.fetchPost)('createProject', formValues).then(function (response) {
+        var request = (0, _fetch.fetchPost)('api/project', formValues).then(function (response) {
             if (response.status != 200) {
                 return dispatch(addProjectFailure(response));
             }
@@ -1935,7 +1935,7 @@ function addProjectFailure(error) {
 
 function editProject(formValues) {
     return function (dispatch) {
-        var request = (0, _fetch.fetchPut)('editProject', formValues).then(function (response) {
+        var request = (0, _fetch.fetchPut)('api/project', formValues).then(function (response) {
             if (response.status != 200) {
                 return dispatch(editProjectFailure(response));
             }
@@ -1945,9 +1945,9 @@ function editProject(formValues) {
 };
 
 function postOnSlack(project) {
-    var formValues = { channel: 'student-prog-tracking',
+    var formValues = { channel: 'capstone-project',
         text: 'The status of the project ' + project.name + ' is changed to ' + project.state + '.' };
-    var request = (0, _fetch.fetchPost)('postOnSlack', formValues);
+    var request = (0, _fetch.fetchPost)('api/postOnSlack', formValues);
     return;
     //    .then((response) => {
     //        if (response.status != 200) {
@@ -1988,7 +1988,7 @@ var setFilters = exports.setFilters = function setFilters(topicFilter, termFilte
 function addProjectPreferredBy(userId, projectId, prevPreferenceProjectId) {
     var obj = { user: userId, projId: projectId, prevPreferenceProjectId: prevPreferenceProjectId };
     return function (dispatch) {
-        var request = (0, _fetch.fetchPut)('addPreferredBy', obj).then(function (response) {
+        var request = (0, _fetch.fetchPut)('api/addPreferredBy', obj).then(function (response) {
             if (response.status != 200) {
                 return dispatch(addProjectPreferredByFailure(response));
             }
@@ -2019,7 +2019,7 @@ var deleteProject = exports.deleteProject = function deleteProject(pId) {
 
 function getProjects() {
     return function (dispatch) {
-        var projects = (0, _fetch.fetchGet)('getProjects').then(function (response) {
+        var projects = (0, _fetch.fetchGet)('api/getAllProjects').then(function (response) {
             if (response.status != 200) {
                 return dispatch(getProjectsFailure(response));
             }
@@ -2044,7 +2044,7 @@ function getProjectsFailure(error) {
 
 function getProjectDetails(pid) {
     return function (dispatch) {
-        var request = (0, _fetch.fetchGet)('getProjectDetails/' + pid).then(function (response) {
+        var request = (0, _fetch.fetchGet)('api/getProjectDetails/' + pid).then(function (response) {
             if (response.status != 200) {
                 return dispatch(getProjectDetailsFail(response));
             }
@@ -2337,7 +2337,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  */
 function addTeam(team) {
     return function (dispatch) {
-        var request = (0, _fetch.fetchPost)('addTeam', team).then(function (response) {
+        var request = (0, _fetch.fetchPost)('api/team', team).then(function (response) {
             if (response.status != 200) {
                 return dispatch(addTeamFailure(response));
             }
@@ -2359,7 +2359,7 @@ function addTeamFailure(err) {
 };
 function updateTeam(team) {
     return function (dispatch) {
-        var request = (0, _fetch.fetchPut)('updateTeam', team).then(function (response) {
+        var request = (0, _fetch.fetchPut)('api/team', team).then(function (response) {
             if (response.status != 200) {
                 return dispatch(updateTeamFailure(response));
             }
@@ -2381,7 +2381,7 @@ function updateTeamFailure(err) {
 };
 function getTeam(tid) {
     return function (dispatch) {
-        var request = (0, _fetch.fetchGet)('getTeam/' + tid).then(function (response) {
+        var request = (0, _fetch.fetchGet)('api/team/' + tid).then(function (response) {
             if (response.status != 200) {
                 return dispatch(getTeamFailure(response));
             }
@@ -3418,21 +3418,21 @@ var NewProject = function (_Component) {
 
         _this.createProject = function () {
             var projectDetails = {};
-            projectDetails.ownedBy = Number(_this.props.user.id);
-            projectDetails.instructor = Number(_this.refs.instructor.value);
+            projectDetails.ownedBy = _this.props.user._id;
+            projectDetails.instructor = _this.refs.instructor.value;
             projectDetails.preferredBy = [];
             projectDetails.state = "ACTIVE";
             projectDetails.slackChannel = _this.refs.slackChannel.value == null ? "" : _this.refs.slackChannel.value;
             projectDetails.expectedResult = _this.refs.expectedResult.value;
             projectDetails.teamSize = Number(_this.refs.teamSize.value);
-            projectDetails.term = Number(_this.refs.term.value);
+            projectDetails.term = _this.refs.term.value;
             projectDetails.name = _this.refs.projectName.value;
             projectDetails.topic = _this.refs.topic.value;
             projectDetails.desc = _this.refs.projectDesc.value;
             _this.props.addProject(projectDetails);
 
             var team = {};
-            team.ownedBy = Number(_this.props.user.id);
+            team.ownedBy = Number(_this.props.user._id);
             team.members = [];
             _this.props.addTeam(team);
             _this.forceUpdate();
@@ -3448,11 +3448,16 @@ var NewProject = function (_Component) {
             if (this.props.users != null) {
                 var facultyOptions = [];
                 var users = this.props.users;
+                facultyOptions.push(_react2.default.createElement(
+                    'option',
+                    { key: "k", value: null },
+                    'Select'
+                ));
                 Object.values(users).forEach(function (u) {
-                    if (u.role === 'faculty') {
+                    if (u.role === 'FACULTY') {
                         facultyOptions.push(_react2.default.createElement(
                             'option',
-                            { key: u.id, value: u.id },
+                            { key: u._id, value: u._id },
                             u.firstname,
                             ' ',
                             u.lastname
@@ -3657,20 +3662,20 @@ var ProjectList = function (_Component) {
                     if ((project.name.includes(this.props.filterText) || project.desc.includes(this.props.filterText)) && (this.props.topicFilter === "" || project.topic === this.props.topicFilter) && (this.props.termFilter === "" || project.term === this.props.termFilter)) {
                         rows.push(_react2.default.createElement(
                             'li',
-                            { key: project.id, className: 'list-group-item' },
+                            { key: project._id, className: 'list-group-item' },
                             _react2.default.createElement(
                                 'p',
                                 null,
                                 _react2.default.createElement(
                                     'a',
-                                    { href: '#/project/' + project.id,
+                                    { href: '#/project/' + project._id,
                                         className: 'navbar-link' },
                                     project.name
                                 ),
-                                (user.id === project.ownedBy || user.role === 'admin') && _react2.default.createElement(
+                                (user._id === project.ownedBy || user._id === project.instructor || user.role === 'ADMIN') && _react2.default.createElement(
                                     'a',
                                     { className: 'pull-right',
-                                        href: '#/editproject/' + project.id },
+                                        href: '#/editproject/' + project._id },
                                     _react2.default.createElement('span', { className: 'glyphicon glyphicon-cog' })
                                 )
                             )
@@ -3695,7 +3700,7 @@ var ProjectList = function (_Component) {
                         )
                     ),
                     _react2.default.createElement('hr', null),
-                    user.role === "student" && _react2.default.createElement(_ProjectPreference2.default, { projects: projects })
+                    user.role === "STUDENT" && _react2.default.createElement(_ProjectPreference2.default, { projects: projects })
                 );
             } else return _react2.default.createElement('noscript', null);
         }
@@ -3780,9 +3785,8 @@ var ProjectPreference = function (_Component) {
             var projectId = prefId == 1 ? _this.refs.pref1.value : prefId == 2 ? _this.refs.pref2.value : _this.refs.pref3.value;
             var action = _this.props.addPreference;
             var prevPreferenceProjectId = _this.props.user.projectPreferences[prefId - 1] === undefined ? -1 : _this.props.user.projectPreferences[prefId - 1];
-            action(Number(_this.props.user.id), Number(prefId), Number(projectId));
-            _this.props.addProjectPreferredBy(Number(_this.props.user.id), Number(projectId), Number(prevPreferenceProjectId));
-            _this.forceUpdate();
+            if (projectId != 0) action(_this.props.user._id, Number(prefId), projectId);
+            _this.props.addProjectPreferredBy(_this.props.user._id, projectId, prevPreferenceProjectId);
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -3802,7 +3806,7 @@ var ProjectPreference = function (_Component) {
             projects.forEach(function (project) {
                 projectOptions.push(_react2.default.createElement(
                     'option',
-                    { key: project.id, value: project.id },
+                    { key: project._id, value: project._id },
                     project.name
                 ));
             });
@@ -3832,7 +3836,7 @@ var ProjectPreference = function (_Component) {
                             _react2.default.createElement(
                                 'select',
                                 { ref: 'pref1', className: 'pull-right',
-                                    value: preferences[0],
+                                    value: preferences[0] === undefined ? 0 : preferences[0],
                                     onChange: function onChange() {
                                         return _this2.handleChange(1);
                                     }
@@ -3860,11 +3864,6 @@ var ProjectPreference = function (_Component) {
                                         return _this2.handleChange(2);
                                     }
                                 },
-                                _react2.default.createElement(
-                                    'option',
-                                    { value: '' },
-                                    'Select a project:'
-                                ),
                                 projectOptions
                             )
                         )
@@ -3883,16 +3882,11 @@ var ProjectPreference = function (_Component) {
                             _react2.default.createElement(
                                 'select',
                                 { ref: 'pref3', className: 'pull-right',
-                                    value: preferences[2] === undefined ? "" : preferences[2],
+                                    value: preferences[2] === undefined ? 0 : preferences[2],
                                     onChange: function onChange() {
                                         return _this2.handleChange(3);
                                     }
                                 },
-                                _react2.default.createElement(
-                                    'option',
-                                    { value: '' },
-                                    'Select a project:'
-                                ),
                                 projectOptions
                             )
                         )
@@ -6325,7 +6319,7 @@ var App = function (_Component) {
         var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
         _this.getUser = function () {
-            (0, _fetch.fetchGet)('user').then(function (response) {
+            (0, _fetch.fetchGet)('api/user').then(function (response) {
                 if (!response.user) {
                     _this.onLogout(response.user);
                 }
@@ -6576,16 +6570,22 @@ var EditProject = function (_Component) {
             projectDetails.expectedResult = _this.refs.expectedResult.value;
             projectDetails.instructor = _this.refs.instructor.value;
             _this.props.editProject(projectDetails);
-            _this.props.router.push("/");
+            _this.props.router.push('/');
         };
 
         _this.uploadFile = function (formData) {
-            var url = "/api/descUpload/" + _this.props.project.id;
+            var url = 'api/descUpload/' + _this.props.project._id;
             _this.props.uploadDescFile(url, formData);
         };
 
-        _this.props.getProjectDetails(Number(_this.props.params.id));
-        _this.props.getTeam(Number(_this.props.params.id));
+        _this.getInterestedStudents = function (preferredBy, users) {
+            return users.filter(function (user) {
+                return preferredBy.includes(user._id);
+            });
+        };
+
+        _this.props.getProjectDetails(_this.props.params.id);
+        _this.props.getTeam(_this.props.params.id);
         _this.props.getUsers();
         return _this;
     }
@@ -6596,7 +6596,7 @@ var EditProject = function (_Component) {
             if (this.props.users != null && this.props.project != null) {
                 var users = this.props.users;
                 var projectDetails = this.props.project;
-                var states = ["INACTIVE", "PROPOSED", "ACTIVE", "IN-PROGRESS", "COMPLETED"];
+                var states = ['INACTIVE', 'PROPOSED', 'ACTIVE', 'IN-PROGRESS', 'COMPLETED'];
                 var currState = projectDetails.state;
                 var statusOptions = [];
                 states.forEach(function (state) {
@@ -6609,11 +6609,11 @@ var EditProject = function (_Component) {
                     }
                 });
                 var facultyOptions = [];
-                Object.values(users).forEach(function (u) {
-                    if (u.role === 'faculty') {
+                users.forEach(function (u) {
+                    if (u.role === 'FACULTY') {
                         facultyOptions.push(_react2.default.createElement(
                             'option',
-                            { key: u.id, value: u.id },
+                            { key: u._id, value: u._id },
                             u.firstname,
                             ' ',
                             u.lastname
@@ -6621,7 +6621,7 @@ var EditProject = function (_Component) {
                     }
                 });
                 var preferredBy = projectDetails.preferredBy;
-                var interestedStudents = projectDetails.interestedStudents;
+                var interestedStudents = this.getInterestedStudents(preferredBy, users);
                 return _react2.default.createElement(
                     'div',
                     null,
@@ -6904,7 +6904,7 @@ var HomePage = function (_Component) {
         key: 'render',
         value: function render() {
             if (this.props.user != null) {
-                if (this.props.user.role === 'admin') return _react2.default.createElement(_AdminConsole2.default, null);else return _react2.default.createElement(_ProjectList2.default, null);
+                if (this.props.user.role === 'ADMIN') return _react2.default.createElement(_AdminConsole2.default, null);else return _react2.default.createElement(_ProjectList2.default, null);
             } else return _react2.default.createElement(_LoginForm2.default, null);
         }
     }]);
@@ -6974,7 +6974,7 @@ var ProjectDetail = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (ProjectDetail.__proto__ || Object.getPrototypeOf(ProjectDetail)).call(this, props));
 
-        _this.props.getProjectDetails(Number(_this.props.params.id));
+        _this.props.getProjectDetails(_this.props.params.id);
         //        this.props.getTeam(Number(this.props.params.id));
         return _this;
     }
@@ -6984,7 +6984,7 @@ var ProjectDetail = function (_Component) {
         value: function render() {
             if (this.props.project != null) {
                 var projectDetails = this.props.project;
-                var url = "/api/descDownload/" + projectDetails.id;
+                var url = 'api/descDownload/' + projectDetails._id;
                 //            const comments = this.props.comments;
                 //            const projectComments = Object.values(comments).filter(function (comment) {
                 //                return comment.projectId === projectDetails.id;
@@ -7062,18 +7062,18 @@ var ProjectDetail = function (_Component) {
                     _react2.default.createElement('hr', null)
                 );
                 //                <div>
-                //                    <div className="row">
-                //                        <h1 className="heading-color">Follow Up</h1>
-                //                        <a type="button" className="btn btn-success"  href="">Add Comment</a><br/>
+                //                    <div className='row'>
+                //                        <h1 className='heading-color'>Follow Up</h1>
+                //                        <a type='button' className='btn btn-success'  href=''>Add Comment</a><br/>
                 //                    </div>
                 //                    <br/>
-                //                    <ol className="comment-list">
+                //                    <ol className='comment-list'>
                 //                        {
                 //                            Object.values(projectComments).map(function (comment) {
                 //                                return(
-                //                                    <li key={comment.id} className="comment">
-                //                                        <article className="comment-body">
-                //                                            <div className="comment-content">
+                //                                    <li key={comment.id} className='comment'>
+                //                                        <article className='comment-body'>
+                //                                            <div className='comment-content'>
                 //                                                <p>{comment.commentText}</p>
                 //                                            </div>
                 //                                        </article>
@@ -7466,10 +7466,14 @@ function projects() {
             error = action.payload.data || { message: action.payload.message }; //2nd one is network or server down errors
             return _extends({}, state, { courses: null, status: 'error', error: error, loading: false });
 
+        case types.LOGOUT_SUCCESS:
+            return _extends({}, state, { projects: null, project: null, filterText: '', topicFilter: '', termFilter: '',
+                status: 'logout', error: null, loading: false });
+
         case types.DELETE_PROJECT:
             var projectId = action.pId;
             var deletedProjects = currProjects.filter(function (project) {
-                return project.id != projectId;
+                return project._id != projectId;
             });
             return {
                 projects: state.projects,
@@ -7554,6 +7558,9 @@ function teams() {
             // return error and make loading = false
             error = action.payload.data || { message: action.payload.message }; //2nd one is network or server down errors
             return _extends({}, state, { user: null, status: 'oops', error: error, loading: false });
+
+        case types.LOGOUT_SUCCESS:
+            return _extends({}, state, { team: null, status: 'logout', error: null, loading: false });
 
         case types.GET_TEAM:
             return _extends({}, state, { status: 'getting team', error: null, loading: true });
@@ -7654,7 +7661,7 @@ function users() {
         case types.LOGOUT_USER:
             return _extends({}, state, { status: 'logging out', error: null, loading: true });
         case types.LOGOUT_SUCCESS:
-            return _extends({}, state, { loggedIn: null, user: null, status: 'logout', error: null, loading: false }); //<-- authenticated
+            return _extends({}, state, { users: null, loggedIn: null, user: null, reqUser: null, courses: null, status: 'logout', error: null, loading: false }); //<-- authenticated
         case types.LOGOUT_FAIL:
             // return error and make loading = false
             error = action.payload.data || { message: action.payload.message }; //2nd one is network or server down errors
@@ -7774,13 +7781,13 @@ var AddNewTeam = function (_Component) {
         var _this = _possibleConstructorReturn(this, (AddNewTeam.__proto__ || Object.getPrototypeOf(AddNewTeam)).call(this, props));
 
         _this.addTeamMember = function (id, team) {
-            team.members.push(Number(id));
+            team.members.push(id);
             _this.props.updateTeam(team);
             _this.forceUpdate();
         };
 
         _this.removeTeamMember = function (id, team) {
-            team.members.splice(team.members.indexOf(Number(id)), 1);
+            team.members.splice(team.members.indexOf(id), 1);
             _this.props.updateTeam(team);
             _this.forceUpdate();
         };
@@ -7795,10 +7802,10 @@ var AddNewTeam = function (_Component) {
                 var team = this.props.team;
                 var students = this.props.interestedStudents;
                 var remainingInterestedStudents = students.filter(function (student) {
-                    return !team.members.includes(student.id);
+                    return !team.members.includes(student._id);
                 });
                 var teamMembers = students.filter(function (student) {
-                    return team.members.includes(student.id);
+                    return team.members.includes(student._id);
                 });
                 return _react2.default.createElement(
                     'div',
@@ -7816,22 +7823,22 @@ var AddNewTeam = function (_Component) {
 
                             return _react2.default.createElement(
                                 'li',
-                                { key: student.id, className: 'list-group-item' },
+                                { key: student._id, className: 'list-group-item' },
                                 _react2.default.createElement(
                                     'p',
                                     null,
                                     _react2.default.createElement(
                                         'a',
-                                        { href: '#/profileview/' + student.id },
+                                        { href: '#/profileview/' + student._id },
                                         student.firstname,
                                         ' ',
                                         student.lastname
                                     ),
                                     _react2.default.createElement(
                                         'a',
-                                        { className: 'pull-right', key: student.id,
+                                        { className: 'pull-right', key: student._id,
                                             onClick: function onClick() {
-                                                return _this2.removeTeamMember(student.id, team);
+                                                return _this2.removeTeamMember(student._id, team);
                                             } },
                                         _react2.default.createElement('span', { className: 'glyphicon glyphicon-remove' })
                                     )
@@ -7853,22 +7860,22 @@ var AddNewTeam = function (_Component) {
 
                             return _react2.default.createElement(
                                 'li',
-                                { key: student.id, className: 'list-group-item' },
+                                { key: student._id, className: 'list-group-item' },
                                 _react2.default.createElement(
                                     'p',
                                     null,
                                     _react2.default.createElement(
                                         'a',
-                                        { href: '#/profileview/' + student.id },
+                                        { href: '#/profileview/' + student._id },
                                         student.firstname,
                                         ' ',
                                         student.lastname
                                     ),
                                     _react2.default.createElement(
                                         'a',
-                                        { className: 'pull-right', key: student.id,
+                                        { className: 'pull-right', key: student._id,
                                             onClick: function onClick() {
-                                                return _this3.addTeamMember(student.id, team);
+                                                return _this3.addTeamMember(student._id, team);
                                             } },
                                         _react2.default.createElement('span', { className: 'glyphicon glyphicon-ok' })
                                     )
@@ -7986,8 +7993,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
@@ -8033,21 +8038,17 @@ var Profile = function (_Component) {
             var courseValues = [];
             var style = { marginRight: '10px' };
             var courses = _this.props.courses;
-            Object.entries(courses).forEach(function (_ref) {
-                var _ref2 = _slicedToArray(_ref, 2),
-                    key = _ref2[0],
-                    value = _ref2[1];
-
+            courses.forEach(function (course) {
                 courseValues.push(_react2.default.createElement(
                     'div',
                     null,
                     _react2.default.createElement(
                         'label',
                         null,
-                        _react2.default.createElement('input', { key: key, id: key, name: value.name, type: 'checkbox',
-                            checked: coursesCompleted.includes(Number(key)),
+                        _react2.default.createElement('input', { key: course._id, id: course._id, name: course.name, type: 'checkbox',
+                            checked: coursesCompleted.includes(course._id),
                             onChange: _this.handleChange, style: style }),
-                        value.name
+                        course.name
                     )
                 ));
             }, _this);
@@ -8056,7 +8057,7 @@ var Profile = function (_Component) {
 
         _this.handleChange = function (event) {
             event.preventDefault();
-            var key = Number(event.target.id);
+            var key = event.target.id;
             var user = _this.props.user;
             var coursesCompleted = user.coursesCompleted;
             if (coursesCompleted.includes(key)) user.coursesCompleted.splice(coursesCompleted.indexOf(key), 1);else user.coursesCompleted.push(key);
@@ -8078,7 +8079,7 @@ var Profile = function (_Component) {
         };
 
         _this.uploadFile = function (formData) {
-            var url = "/api/resumeUpload/" + _this.props.user.id;
+            var url = "api/resumeUpload/" + _this.props.user._id;
             _this.props.uploadFile(url, formData);
         };
 
@@ -8190,7 +8191,7 @@ var Profile = function (_Component) {
                             _react2.default.createElement('input', { type: 'text', defaultValue: aboutMyself, className: 'form-control', ref: 'aboutMyself',
                                 placeholder: 'About me' })
                         ),
-                        role == "student" && _react2.default.createElement(
+                        role == "STUDENT" && _react2.default.createElement(
                             'div',
                             { className: 'form-group' },
                             _react2.default.createElement(
@@ -8231,7 +8232,7 @@ var Profile = function (_Component) {
 
 Profile.propTypes = {
     user: _propTypes2.default.object,
-    courses: _propTypes2.default.object
+    courses: _propTypes2.default.array
 };
 function mapStateToProps(state) {
     return {
@@ -8254,8 +8255,6 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -8297,7 +8296,7 @@ var ProfileView = function (_Component) {
         var _this = _possibleConstructorReturn(this, (ProfileView.__proto__ || Object.getPrototypeOf(ProfileView)).call(this, props));
 
         _this.props.getCourses();
-        _this.props.getUser(Number(_this.props.params.id));
+        _this.props.getUser(_this.props.params.id);
         return _this;
     }
 
@@ -8305,7 +8304,7 @@ var ProfileView = function (_Component) {
         key: 'render',
         value: function render() {
             var user = this.props.user;
-            var url = "/api/resumeDownload/" + user.id;
+            var url = "/api/resumeDownload/" + user._id;
             var courses = this.props.courses;
             if (user != null && courses != null) {
                 var username = user.username,
@@ -8317,17 +8316,12 @@ var ProfileView = function (_Component) {
                     role = user.role;
 
                 var courseValues = [];
-
-                Object.entries(courses).forEach(function (_ref) {
-                    var _ref2 = _slicedToArray(_ref, 2),
-                        key = _ref2[0],
-                        value = _ref2[1];
-
-                    if (coursesCompleted.includes(Number(key))) {
+                courses.forEach(function (course) {
+                    if (coursesCompleted.includes(course._id)) {
                         courseValues.push(_react2.default.createElement(
                             'div',
                             null,
-                            _react2.default.createElement('input', { id: key, type: 'text', disabled: 'true', value: value })
+                            _react2.default.createElement('input', { id: course._id, type: 'text', disabled: 'true', value: course.name })
                         ));
                     }
                 });
@@ -8388,7 +8382,7 @@ var ProfileView = function (_Component) {
                             _react2.default.createElement('input', { type: 'text', defaultValue: aboutMyself, className: 'form-control', disabled: 'true', ref: 'aboutMyself',
                                 placeholder: 'About me' })
                         ),
-                        role == "student" && _react2.default.createElement(
+                        role === "STUDENT" && _react2.default.createElement(
                             'div',
                             { className: 'form-group' },
                             _react2.default.createElement(
@@ -8400,6 +8394,12 @@ var ProfileView = function (_Component) {
                             courseValues
                         )
                     ),
+                    _react2.default.createElement(
+                        'label',
+                        { className: 'form-control' },
+                        'Download resume'
+                    ),
+                    _react2.default.createElement('br', null),
                     _react2.default.createElement(_FileDownload2.default, { url: url })
                 );
             } else return _react2.default.createElement('noscript', null);
@@ -8411,7 +8411,7 @@ var ProfileView = function (_Component) {
 
 ProfileView.propTypes = {
     user: _propTypes2.default.object,
-    courses: _propTypes2.default.object
+    courses: _propTypes2.default.array
 };
 function mapStateToProps(state) {
     return {
@@ -8718,7 +8718,7 @@ var AdminConsole = function (_Component) {
 
         _this.editCourse = function (course) {
             event.preventDefault();
-            _this.props.editCourse(course);
+            _this.props.updateCourse(course);
         };
 
         _this.deleteCourse = function (course) {
@@ -8771,7 +8771,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return (0, _redux.bindActionCreators)({ registerUser: _UserActions.registerUser,
-        addCourse: _UserActions.addCourse, editCourse: _UserActions.editCourse,
+        addCourse: _UserActions.addCourse, updateCourse: _UserActions.updateCourse,
         deleteCourse: _UserActions.deleteCourse, getCourses: _UserActions.getCourses }, dispatch);
 }
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(AdminConsole);
@@ -8829,7 +8829,6 @@ var EditCourse = function (_Component) {
             };
             _this.props.onUserInputEdit(course);
         }, _this.deleteCourse = function (id) {
-            console.log(id);
             _this.props.onUserInputDelete(id);
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
@@ -8843,10 +8842,10 @@ var EditCourse = function (_Component) {
             Object.values(courses).forEach(function (course) {
                 var _this2 = this;
 
-                var keyName = "course" + course.id;
+                var keyName = "course" + course._id;
                 courseRows.push(_react2.default.createElement(
                     'div',
-                    { key: course.id, className: 'list-group-item' },
+                    { key: course._id, className: 'list-group-item' },
                     _react2.default.createElement(
                         'p',
                         null,
@@ -8855,14 +8854,14 @@ var EditCourse = function (_Component) {
                         _react2.default.createElement(
                             'a',
                             { className: 'pull-right', onClick: function onClick() {
-                                    return _this2.deleteCourse(course.id);
+                                    return _this2.deleteCourse(course._id);
                                 }, style: style },
                             _react2.default.createElement('span', { className: 'glyphicon glyphicon-remove' })
                         ),
                         _react2.default.createElement(
                             'a',
                             { className: 'pull-right', onClick: function onClick() {
-                                    return _this2.editCourse(course.id);
+                                    return _this2.editCourse(course._id);
                                 }, style: style },
                             _react2.default.createElement('span', { className: 'glyphicon glyphicon-ok' })
                         )
@@ -9015,22 +9014,22 @@ var NewUser = function (_Component) {
                         ),
                         _react2.default.createElement(
                             'option',
-                            { value: 'student' },
+                            { value: 'STUDENT' },
                             'Student'
                         ),
                         _react2.default.createElement(
                             'option',
-                            { value: 'faculty' },
+                            { value: 'FACULTY' },
                             'Faculty'
                         ),
                         _react2.default.createElement(
                             'option',
-                            { value: 'admin' },
+                            { value: 'ADMIN' },
                             'Admin'
                         ),
                         _react2.default.createElement(
                             'option',
-                            { value: 'sponsor' },
+                            { value: 'SPONSOR' },
                             'Sponsor'
                         )
                     )
