@@ -11,8 +11,13 @@ import { createLogger } from 'redux-logger';
 import { loadState, savedState } from './localStorage';
 
 const persistedState = loadState();
-const loggerMiddleware = createLogger();
-const store = createStore(reducer, persistedState, applyMiddleware(ReduxThunk, loggerMiddleware));
+let store = null;
+if (process.env.NODE_ENV !== 'production') {
+    const loggerMiddleware = createLogger();
+    store = createStore(reducer, persistedState, applyMiddleware(ReduxThunk, loggerMiddleware));
+} else {
+    store = createStore(reducer, persistedState, applyMiddleware(ReduxThunk));
+}
 
 store.subscribe(() => {
     savedState(store.getState());

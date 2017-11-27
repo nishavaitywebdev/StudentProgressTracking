@@ -16,10 +16,10 @@ class ProfileView extends Component{
     }
     render(){
         const user = this.props.user;
-        const url = "/api/resumeDownload/"+user._id;
         const courses = this.props.courses;
         if(user != null && courses != null){
             let { username, firstname, lastname, email, aboutMyself, coursesCompleted, role } = user;
+            const url = "/api/resumeDownload/"+user._id;
             let courseValues = [];
             courses.forEach(course => {
                 if(coursesCompleted.includes(course._id)) {

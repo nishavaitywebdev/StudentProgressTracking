@@ -14,6 +14,10 @@ import EditProject from '../src/projects/EditProject';
 import ProjectPreference from '../src/projects/ProjectPreference';
 import { Router, Route, hashHistory, Redirect } from 'react-router';
 
+if (process.env.NODE_ENV !== 'production') {
+   console.log('Looks like we are in development mode!');
+}
+
 const Paths = (
 <Router history={hashHistory}>
     <Route path="/App" component={MainApp}>
