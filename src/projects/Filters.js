@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 
 class Filters extends Component {
     handleChange = () => {
-        console.log(this.refs.topicInput.value);
         this.props.onUserInput(
             this.refs.topicInput.value,
             this.refs.termInput.value,

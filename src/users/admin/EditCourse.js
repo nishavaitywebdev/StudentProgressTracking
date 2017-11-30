@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 class EditCourse extends Component{
     editCourse = (id) => {
-    console.log(id);
         const keyName = "course"+id;
         const name = this.refs[keyName].value;
         const course = {

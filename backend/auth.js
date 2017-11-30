@@ -23,12 +23,12 @@ const authenticate = (app) => {
     app.use(passport.session());
 
     passport.serializeUser(function(user, done) {
-        done(null, user._id);
+        done(null, user);
     });
 
     // used to deserialize the user
-    passport.deserializeUser(function(id, done) {
-        return UserModelApi.findOne(id)
+    passport.deserializeUser(function(user, done) {
+        return UserModelApi.findOne(user._id)
         .then((user) => {
             if(user){
                 return done(null, user);

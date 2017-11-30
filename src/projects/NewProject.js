@@ -34,7 +34,15 @@ class NewProject extends Component {
         team.ownedBy = Number(this.props.user._id);
         team.members = [];
         this.props.addTeam(team);
-        this.forceUpdate();
+        //reset form fields
+        this.refs.instructor.value = "";
+        this.refs.slackChannel.value = "";
+        this.refs.expectedResult.value = "";
+        this.refs.teamSize.value = "";
+        this.refs.term.value = "";
+        this.refs.projectName.value = "";
+        this.refs.topic.value = "";
+        this.refs.projectDesc.value = "";
     };
 
     render(){

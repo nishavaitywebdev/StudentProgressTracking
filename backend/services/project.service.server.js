@@ -56,7 +56,6 @@ const addPreferredBy = (req, res) => {
                 });
             });
         } else {
-            console.log(project);
             model.projectModel.updateProject(project._id, project)
             .then((projectUpdated) => {
                 res.send({ status: 200, project: project});

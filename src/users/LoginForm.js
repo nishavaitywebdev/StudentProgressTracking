@@ -11,8 +11,6 @@ class LoginForm extends Component {
     componentDidUpdate(){
         if(this.props.user != null)
             this.context.router.push('/homepage');
-        // else
-        //     this.props.alert = 'Invalid';
     }
     submit = (event) => {
         event.preventDefault();
@@ -33,10 +31,10 @@ class LoginForm extends Component {
         return(
             <div className="container">
                 <div className="col-xs-4 col-xs-offset-4">
-                    { this.props.alert &&
-                    <div className="alert alert-danger">
-                        {this.props.alert}
-                    </div> }
+                    { this.props.alert === 'Invalid user' &&
+                        <div className="alert alert-danger">
+                            {this.props.alert}
+                        </div> }
                     <h1>Login</h1><br/>
                     <form onSubmit={this.submit}>
                         <input type="text"
@@ -62,10 +60,12 @@ LoginForm.contextTypes = {
 };
 LoginForm.propTypes = {
     user: PropTypes.object,
+    alert: PropTypes.string,
 };
 function mapStateToProps(state){
     return {
         user: state.userReducer.user,
+        alert: state.userReducer.status,
     };
 }
 const mapDispatchToProps = (dispatch) => {

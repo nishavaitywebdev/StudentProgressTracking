@@ -196,7 +196,6 @@ export function signUpUser(formValues) {
 }
 
 export function signUpUserSuccess(user) {
-    console.log(user);
     return {
         type: types.SIGNUP_USER_SUCCESS,
         user

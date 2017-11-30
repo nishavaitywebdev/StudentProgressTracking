@@ -7,6 +7,7 @@ class AddCourse extends Component{
             name: this.refs.coursename.value,
         };
         this.props.onUserInput(course);
+        this.forceUpdate();
     }
 
     render(){

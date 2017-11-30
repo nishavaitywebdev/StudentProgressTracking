@@ -51,7 +51,8 @@ class AdminConsole extends Component{
                     <ProjectList/><br/><hr/>
                     <AddCourse onUserInput={this.createCourse}/><br/><hr/>
                     <EditCourse courses={courses}
-                    onUserInputEdit={this.editCourse} onUserInputDelete={this.deleteCourse} /><br/><hr/>
+                    onUserInputEdit={this.editCourse} onUserInputDelete={this.deleteCourse} /><br/>
+                    <a className="btn btn-primary btn-block" href="/api/backupDatabase">Download Database Backup file</a><br/><hr/>
                 </div>
             );
         } else return (<noscript />);

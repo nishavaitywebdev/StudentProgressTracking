@@ -16,6 +16,11 @@ class NewUser extends Component{
             aboutMyself: "", coursesCompleted: [], projectPreferences: []
         };
         this.props.onUserInput(user);
+        //reset form fields
+        this.refs.firstname.value = "";
+        this.refs.lastname.value = "";
+        this.refs.email.value = "";
+        this.refs.role.value = "";
     }
 
     render(){

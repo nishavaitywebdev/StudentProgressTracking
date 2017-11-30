@@ -6,6 +6,7 @@ const upload = multer({storage});
 const nodeMailer = require('nodemailer');
 const { passport } = require('../auth.js');
 const { postMessageOnSlackGroup } = require('../slack-api.js');
+var backup = require('mongodb-backup');
 
 const isAuthenticated = (req, res, next) => {
     if(req.isAuthenticated) {
@@ -24,7 +25,11 @@ const loggedInAndSelf = (req, res, next) => {
     }
 };
 const login = (req, res) => {
-    res.send({isAuthenticated: true, user: req.user });
+    if(Object.keys(req.user).length === 0)
+        res.send({isAuthenticated: false, user: null });
+    else
+        res.send({isAuthenticated: true, user: req.user });
+
 };
 const checkLogin = (req, res) => {
     res.send(req.isAuthenticated ? req.user :  '0');
@@ -154,7 +159,22 @@ const downloadResume = (req, res) => {
         res.download(__dirname+url, user.origFileName);
     });
 };
-
+const backUpDatabase = (req, res) => {
+    const connectionString = process.env.MONGODB_URI;
+    const backUpFileName = Date.now()+'dump.tar';
+    backup({
+        uri: connectionString,
+        root: __dirname+'/../backup',
+        tar: backUpFileName,
+        callback: function(err) {
+            if (err) {
+                res.send({ status: 400, err: error});
+            } else {
+                res.download(__dirname+'/../backup/'+backUpFileName, 'backupFile.tar');
+            }
+        }
+    });
+};
 const userService = (app, model) => {
     app.post('/api/login', passport.authenticate('local-login'), (req, res) => login(req, res));
     app.post('/api/checkLogin', (req, res) => checkLogin(req, res));
@@ -171,6 +191,7 @@ const userService = (app, model) => {
     app.post('/api/postOnSlack', isAuthenticated, (req, res) => postOnSlack(req, res));
     app.post('/api/resumeUpload/:id', isAuthenticated, upload.single('myFile'), (req, res) => uploadResume(req, res));
     app.get('/api/resumeDownload/:id', isAuthenticated, (req, res) => downloadResume(req, res));
+    app.get('/api/backupDatabase', isAuthenticated, (req, res) => backUpDatabase(req, res));
     app.delete('/api/user/:userId', loggedInAndSelf, (req, res) => deleteUser(req, res));
 };
 module.exports = {

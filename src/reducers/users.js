@@ -13,8 +13,7 @@ export default function users(state = initialState, action) {
         case types.SIGNIN_USER_SUCCESS:
             return { ...state, loggedIn: action.payload, user: action.payload, status:'authenticated', error:null, loading: false}; //<-- authenticated
         case types.SIGNIN_USER_FAILURE:// return error and make loading = false
-            error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
-            return { ...state, user: null, status:'signin', error:error, loading: false};
+            return { ...state, user: null, loggedIn: null, status:'Invalid user', error: action.payload, loading: false};
 
         case types.SIGNUP_USER:// sign in user,  set loading = true and status = signin
             return { ...state, status:'signup', error:null, loading: true};

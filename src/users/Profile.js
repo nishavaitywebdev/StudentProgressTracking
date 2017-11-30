@@ -57,11 +57,12 @@ class Profile extends Component{
         user.lastname = this.refs.lastname.value;
         user.aboutMyself = this.refs.aboutMyself.value;
         this.props.updateUser(user);
-        this.forceUpdate();
+        this.props.router.push('/');
     };
     uploadFile = (formData) => {
         const url = "api/resumeUpload/"+this.props.user._id;
         this.props.uploadFile(url, formData);
+        this.props.router.push('/');
     };
     alertShow = (alert) => {
         return(
@@ -93,7 +94,7 @@ class Profile extends Component{
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">New Password</label>
-                            <input type="password" defaultValue={password} className="form-control" ref="password" placeholder="password" />
+                            <input type="password" defaultValue={password} minLength="8" className="form-control" ref="password" placeholder="password" />
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">Confirm Password</label>
@@ -133,6 +134,9 @@ class Profile extends Component{
         } else return (<noscript />);
     }
 }
+Profile.contextTypes = {
+    router: PropTypes.object,
+};
 Profile.propTypes = {
     user: PropTypes.object,
     courses: PropTypes.array,
