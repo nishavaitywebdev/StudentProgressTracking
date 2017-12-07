@@ -12,6 +12,7 @@ class NewUser extends Component{
             email: this.refs.email.value,
             role: this.refs.role.value,
             username: "",
+            url: "",
             password:"",
             aboutMyself: "", coursesCompleted: [], projectPreferences: []
         };

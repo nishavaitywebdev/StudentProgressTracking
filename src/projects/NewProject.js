@@ -21,6 +21,7 @@ class NewProject extends Component {
         projectDetails.instructor = this.refs.instructor.value;
         projectDetails.sponsor = this.refs.sponsor.value;
         projectDetails.preferredBy = [];
+        projectDetails.url = "";
         projectDetails.state = "ACTIVE";
         projectDetails.slackChannel = (this.refs.slackChannel.value == null) ? "": this.refs.slackChannel.value;
         projectDetails.expectedResult = this.refs.expectedResult.value;

@@ -19,7 +19,7 @@ class ProfileView extends Component{
         const courses = this.props.courses;
         if(user != null && courses != null){
             let { username, firstname, lastname, email, aboutMyself, coursesCompleted, role } = user;
-            const disableDownload = user.url === undefined;
+            const disableDownload = (user.url === null || user.url === undefined || user.url === "");
             const url = "/api/resumeDownload/"+user._id;
             let courseValues = [];
             courses.forEach(course => {

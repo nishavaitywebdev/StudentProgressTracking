@@ -17,7 +17,7 @@ class ProjectDetail extends Component {
     render() {
         if(this.props.project!=null) {
             const projectDetails = this.props.project;
-            const disableDownload = projectDetails.url === undefined;
+            const disableDownload = (projectDetails.url === null || projectDetails.url === undefined || projectDetails.url === "");
             const url = 'api/descDownload/'+projectDetails._id;
             return(
                 <div className='container'>
