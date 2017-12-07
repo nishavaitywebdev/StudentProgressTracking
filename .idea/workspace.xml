@@ -1,27 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="995b449b-fdd9-49b1-832e-01cded097c5d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/users/admin/UsersList.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/models/project/project.schema.server.js" afterPath="$PROJECT_DIR$/backend/models/project/project.schema.server.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/project.service.server.js" afterPath="$PROJECT_DIR$/backend/services/project.service.server.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/services/user.service.server.js" afterPath="$PROJECT_DIR$/backend/services/user.service.server.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/build/bundle.js" afterPath="$PROJECT_DIR$/public/build/bundle.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/actions/ProjectActions.js" afterPath="$PROJECT_DIR$/src/actions/ProjectActions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/actions/UserActions.js" afterPath="$PROJECT_DIR$/src/actions/UserActions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/constants/ActionTypes.js" afterPath="$PROJECT_DIR$/src/constants/ActionTypes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.js" afterPath="$PROJECT_DIR$/src/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/projects/EditProject.js" afterPath="$PROJECT_DIR$/src/projects/EditProject.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/projects/NewProject.js" afterPath="$PROJECT_DIR$/src/projects/NewProject.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/projects/ProjectDetail.js" afterPath="$PROJECT_DIR$/src/projects/ProjectDetail.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/projects/ProjectList.js" afterPath="$PROJECT_DIR$/src/projects/ProjectList.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/reducers/projects.js" afterPath="$PROJECT_DIR$/src/reducers/projects.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/reducers/users.js" afterPath="$PROJECT_DIR$/src/reducers/users.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/users/ProfileView.js" afterPath="$PROJECT_DIR$/src/users/ProfileView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/users/Register.js" afterPath="$PROJECT_DIR$/src/users/Register.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/users/admin/AdminConsole.js" afterPath="$PROJECT_DIR$/src/users/admin/AdminConsole.js" />
-    </list>
+    <list default="true" id="995b449b-fdd9-49b1-832e-01cded097c5d" name="Default" comment="" />
     <ignored path="project.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
