@@ -13,13 +13,22 @@ import FileUpload from 'utils/FileUpload';
 
 class EditProject extends Component {
     updateProject = () => {
+        const user = this.props.user;
         let projectDetails = this.props.project;
         projectDetails.name = this.refs.projectName.value;
         projectDetails.desc = this.refs.projectDesc.value;
-        projectDetails.state = this.refs.projectStatus.value;
-        projectDetails.slackChannel = this.refs.slackChannel.value;
         projectDetails.expectedResult = this.refs.expectedResult.value;
-        projectDetails.instructor = this.refs.instructor.value;
+        if(user.role === 'ADMIN' || user.role === 'FACULTY'){
+            projectDetails.state = this.refs.projectStatus.value;
+            projectDetails.slackChannel = this.refs.slackChannel.value;
+            projectDetails.teamSize = Number(this.refs.teamSize.value);
+            projectDetails.term = this.refs.term.value;
+            projectDetails.topic = this.refs.topic.value;
+            if(user.role === 'ADMIN'){
+                projectDetails.instructor = this.refs.instructor.value;
+                projectDetails.sponsor = this.refs.sponsor.value;
+            }
+        }
         this.props.editProject(projectDetails);
         this.props.router.push('/');
     }
@@ -39,6 +48,7 @@ class EditProject extends Component {
     render(){
         if(this.props.users!=null && this.props.project!=null){
             const users = this.props.users;
+            let sponsorOptions = [];
             const projectDetails = this.props.project;
             const states = ['INACTIVE', 'PROPOSED', 'ACTIVE', 'IN-PROGRESS', 'COMPLETED'];
             const currState = projectDetails.state;
@@ -52,21 +62,26 @@ class EditProject extends Component {
             users.forEach(function(u) {
                 if(u.role === 'FACULTY') {
                     facultyOptions.push(<option key={u._id} value={u._id}>{u.firstname} {u.lastname}</option>);
+                } else if(u.role === 'SPONSOR') {
+                    sponsorOptions.push(<option key={u._id} value={u._id}>{u.firstname} {u.lastname}</option>);
                 }
             });
+            const user = this.props.user;
+            const disableForSponsor = user.role === "SPONSOR";
             const preferredBy = projectDetails.preferredBy;
             const interestedStudents = this.getInterestedStudents(preferredBy, users);
             return(
                 <div>
                     <label>Project State</label>
                     <br/>
-                    <select
+                    <select disabled={disableForSponsor}
                         defaultValue={currState}
                         ref='projectStatus'
                     >
                         { statusOptions }
                     </select>
-                    <br/>
+                    <br/><br/>
+                    <label>Project Details File</label>
                     <FileUpload onUserInput={this.uploadFile}/>
                     <div className='form-group'>
                         <label>Project Name</label>
@@ -74,7 +89,7 @@ class EditProject extends Component {
                     </div>
                     <div className='form-group'>
                         <label>Project Slack channel</label>
-                        <input type='text' className='form-control' defaultValue={projectDetails.slackChannel} ref='slackChannel'/>
+                        <input type='text' className='form-control' disabled={disableForSponsor} defaultValue={projectDetails.slackChannel} ref='slackChannel'/>
                     </div>
                     <div className='form-group'>
                         <label>Project Description</label>
@@ -84,18 +99,43 @@ class EditProject extends Component {
                         <label>Project Expected Results</label>
                         <textarea type='text' className='form-control' defaultValue={projectDetails.expectedResult} ref='expectedResult' size='3'/>
                     </div>
-                    <select
-                        ref='instructor'
-                    >
-                        { facultyOptions }
-                    </select>
+                    <div className="form-group">
+                        <label>Project Team size</label>
+                        <input type="number" className="form-control" defaultValue={projectDetails.teamSize} disabled={disableForSponsor} ref="teamSize" />
+                    </div>
+                    <div className="form-group">
+                        <label>Project Term</label>
+                        <input type="text" className="form-control" defaultValue={projectDetails.term} disabled={disableForSponsor} ref="term" />
+                    </div>
+                    <div className="form-group">
+                        <label>Project Topic</label>
+                        <input type="text" className="form-control" defaultValue={projectDetails.topic} disabled={disableForSponsor} ref="topic" />
+                    </div>
+                    {user.role === "ADMIN" &&
+                        <select
+                            ref='instructor'
+                        >
+                            { facultyOptions }
+                        </select>
+                    }
+                    <br/>
+                    <br/>
+                    {user.role === "ADMIN" &&
+                        <select
+                            ref='sponsor'
+                        >
+                            { sponsorOptions }
+                        </select>
+                    }
                     <br/>
                     <hr/>
-                    <div className='form-group'>
-                        <AddNewTeam project={projectDetails} interestedStudents={interestedStudents}/>
-                    </div>
+                    {(user.role === "ADMIN" || user.role === "FACULTY") &&
+                        <div className='form-group'>
+                            <AddNewTeam project={projectDetails} interestedStudents={interestedStudents}/>
+                        </div>
+                    }
                     <a className='btn btn-primary btn-block'
-                       onClick={this.updateProject}>Submit</a>
+                       onClick={this.updateProject}>Edit Project</a>
                 </div>
             );
         } else return (<noscript />);

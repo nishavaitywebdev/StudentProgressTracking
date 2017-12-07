@@ -221,9 +221,10 @@ export function registerUser(formValues) {
     };
 }
 
-export function registerUserSuccess(user) {
+export function registerUserSuccess(newUser) {
     return {
         type: types.REGISTER_USER_SUCCESS,
+        newUser
     };
 }
 
@@ -277,6 +278,29 @@ export function addCourseSuccess(courses) {
 export function addCourseFailure(err) {
     return {
         type: types.ADD_COURSE_FAILURE,
+        err
+    };
+}
+export function deleteUser(formValues) {
+    return dispatch => {
+        const request = fetchDelete('api/user/'+formValues)
+        .then((response) => {
+            if (response.status != 200) {
+                return dispatch(deleteUserFailure(response));
+            }
+            return dispatch(deleteUserSuccess(response.users));
+        });
+    };
+}
+export function deleteUserSuccess(users) {
+    return {
+        type: types.DELETE_USER_SUCCESS,
+        users
+    };
+}
+export function deleteUserFailure(err) {
+    return {
+        type: types.DELETE_USER_FAILURE,
         err
     };
 }

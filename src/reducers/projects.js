@@ -16,7 +16,7 @@ export default function projects(state = initialState, action) {
         case types.ADD_PROJECT:
             return { ...state, status:'adding project', error:null, loading: true};
         case types.ADD_PROJECT_SUCCESS:
-            return { ...state, status:'added', error:null, loading: false}; //<-- authenticated
+            return { ...state, status:'added', projects: action.projects, error:null, loading: false}; //<-- authenticated
         case types.ADD_PROJECT_FAIL:// return error and make loading = false
             error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
             return { ...state, status:'oops', error:error, loading: false};
@@ -58,15 +58,11 @@ export default function projects(state = initialState, action) {
             status:'logout', error:null, loading: false};
 
         case types.DELETE_PROJECT:
-            const projectId = action.pId;
-            let deletedProjects = currProjects.filter(project => project._id != projectId);
-            return {
-                projects: state.projects,
-                projectById: deletedProjects,
-                filterText: state.filterText,
-                topicFilter: state.topicFilter,
-                termFilter: state.termFilter,
-            }
+            return { ...state, status:'deleting', error:null, loading: true};
+        case types.DELETE_PROJECT_SUCCESS:
+            return { ...state, status:'delete success', projects: action.projects, error:null, loading: true};
+        case types.DELETE_PROJECT_FAIL:
+            return { ...state, status:'delete failed', error: action.payload, loading: true};
 
         case types.ADD_PREFERREDBY:
             return { ...state, status:'adding pref by', error:null, loading: true};

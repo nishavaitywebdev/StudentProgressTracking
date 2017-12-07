@@ -11,6 +11,7 @@ import ProfileView from '../src/users/ProfileView';
 import ProjectDetail from '../src/projects/ProjectDetail';
 import NewProject from '../src/projects/NewProject';
 import EditProject from '../src/projects/EditProject';
+import UsersList from '../src/users/admin/UsersList';
 import ProjectPreference from '../src/projects/ProjectPreference';
 import { Router, Route, hashHistory, Redirect } from 'react-router';
 
@@ -29,6 +30,7 @@ const Paths = (
         <Route path="/homepage" component={HomePage}/>
         <Route path="/projectpreference" component={ProjectPreference}/>
         <Route path="/createproject" component={NewProject}/>
+        <Route path="/manageUsers" component={UsersList}/>
         <Route path="/editproject/:id" component={EditProject}/>
         <Route path="/project/:id" component={ProjectDetail}/>
         <Route path="/" component={LoginForm} />

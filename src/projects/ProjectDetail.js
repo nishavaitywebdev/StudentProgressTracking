@@ -17,6 +17,7 @@ class ProjectDetail extends Component {
     render() {
         if(this.props.project!=null) {
             const projectDetails = this.props.project;
+            const disableDownload = projectDetails.url === undefined;
             const url = 'api/descDownload/'+projectDetails._id;
             return(
                 <div className='container'>
@@ -37,8 +38,12 @@ class ProjectDetail extends Component {
                            value={projectDetails.slackChannel}
                         />
                     </div>
-                    <label className='form-control'>Download Details file</label>
-                    <FileDownload url={url}/>
+                    { !disableDownload &&
+                        <div>
+                            <label className='form-control'>Download Details file</label>
+                            <FileDownload url={url}/>
+                        </div>
+                    }
                     <div className='form-group'>
                         <label>Project Description</label>
                         <textarea type='text' className='form-control' id=''

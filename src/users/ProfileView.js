@@ -19,6 +19,7 @@ class ProfileView extends Component{
         const courses = this.props.courses;
         if(user != null && courses != null){
             let { username, firstname, lastname, email, aboutMyself, coursesCompleted, role } = user;
+            const disableDownload = user.url === undefined;
             const url = "/api/resumeDownload/"+user._id;
             let courseValues = [];
             courses.forEach(course => {
@@ -65,8 +66,12 @@ class ProfileView extends Component{
                         </div>
                     }
                 </form>
-                <label className="form-control">Download resume</label><br/>
-                <FileDownload url={url}/>
+                { !disableDownload &&
+                    <div>
+                        <label className="form-control">Download resume</label><br/>
+                        <FileDownload url={url}/>
+                    </div>
+                }
             </div>
         );
         } else return (<noscript />);

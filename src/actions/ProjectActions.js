@@ -2,7 +2,7 @@
  * Created by nishavaity on 10/21/17.
  */
 import * as types from '../../src/constants/ActionTypes';
-import { fetchPut, fetchGet, fetchPost } from 'utils/fetch';
+import { fetchPut, fetchGet, fetchPost, fetchDelete } from 'utils/fetch';
 import fetch from 'isomorphic-fetch';
 
 export function addProject(formValues) {
@@ -12,20 +12,47 @@ export function addProject(formValues) {
             if (response.status != 200) {
                 return dispatch(addProjectFailure(response));
             }
-            return dispatch(addProjectSuccess());
+            return dispatch(addProjectSuccess(response.projects));
         });
     };
 };
 
-export function addProjectSuccess() {
+export function addProjectSuccess(projects) {
     return {
         type: types.ADD_PROJECT_SUCCESS,
+        projects
     };
 }
 
 export function addProjectFailure(error) {
   return {
     type: types.ADD_PROJECT_FAIL,
+    payload: error
+  };
+}
+
+export function deleteProject(pid) {
+    return dispatch => {
+        const request = fetchDelete(`api/project/${pid}`)
+        .then((response) => {
+            if (response.status != 200) {
+                return dispatch(deleteProjectFailure(response));
+            }
+            return dispatch(deleteProjectSuccess(response.projects));
+        });
+    };
+};
+
+export function deleteProjectSuccess(projects) {
+    return {
+        type: types.DELETE_PROJECT_SUCCESS,
+        projects
+    };
+}
+
+export function deleteProjectFailure(error) {
+  return {
+    type: types.DELETE_PROJECT_FAIL,
     payload: error
   };
 }
@@ -43,7 +70,7 @@ export function editProject(formValues) {
 };
 
 function postOnSlack(project){
-    const formValues = {channel: 'capstone-project',
+    const formValues = {channel: project.slackChannel,
     text: `The status of the project ${project.name} is changed to ${project.state}.`};
     const request = fetchPost('api/postOnSlack', formValues);
     return;
@@ -104,11 +131,6 @@ export function addProjectPreferredByFailure(error) {
     payload: error
   };
 }
-
-export const deleteProject = (pId) => ({
-    type: types.DELETE_PROJECT,
-    pId
-});
 
 export function getProjects() {
     return dispatch => {

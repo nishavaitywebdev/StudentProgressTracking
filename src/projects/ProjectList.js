@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { setFilterText, setFilters, getProjects } from '../actions/ProjectActions';
+import { setFilterText, setFilters, getProjects, deleteProject } from '../actions/ProjectActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import SearchBar from './SearchBar';
@@ -18,6 +18,9 @@ class ProjectList extends Component {
     componentWillReceiveProps(){
         this.forceUpdate();
     }
+    deleteProject = (id) =>{
+        this.props.deleteProject(id);
+    }
     render(){
         if(this.props.projects!=null) {
             const projects = this.props.projects;
@@ -25,6 +28,7 @@ class ProjectList extends Component {
             let topics = [...new Set(projects.map(project => project.topic))];
             const user = this.props.user;
             let rows = [];
+            const style = {margin: '10px'};
             projects.forEach(function (project) {
                 if ((project.name.includes(this.props.filterText)
                     || project.desc.includes(this.props.filterText))
@@ -35,13 +39,21 @@ class ProjectList extends Component {
                             <p>
                                 <a href={`#/project/${project._id}`}
                                    className="navbar-link">{project.name}</a>
-                                {(user._id === project.ownedBy || user._id === project.instructor || user.role === 'ADMIN') &&
-                                <a className="pull-right"
-                                   href={`#/editproject/${project._id}`}>
-                                    <span className="glyphicon glyphicon-cog">
-                                    </span>
-                                </a>
+                                {(user.role === 'ADMIN') &&
+                                    <a className="pull-right" style={style}
+                                       onClick={() => this.deleteProject(project._id)}>
+                                        <span className="glyphicon glyphicon-remove">
+                                        </span>
+                                    </a>
                                 }
+                                {(user._id === project.ownedBy || user._id === project.sponsor || user._id === project.instructor || user.role === 'ADMIN') &&
+                                    <a className="pull-right" style={style}
+                                       href={`#/editproject/${project._id}`}>
+                                        <span className="glyphicon glyphicon-cog">
+                                        </span>
+                                    </a>
+                                }
+
                             </p>
                         </li>
                     );
@@ -83,7 +95,7 @@ function mapStateToProps(state){
     }
 }
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({setFilterText: setFilterText,
+    return bindActionCreators({setFilterText: setFilterText, deleteProject: deleteProject,
     setFilters: setFilters, getProjects: getProjects}, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectList)

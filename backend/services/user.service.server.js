@@ -47,8 +47,21 @@ const signupUser = (req, res) => {
 };
 const deleteUser = (req, res) => {
     const id = req.params.userId;
-    model.userModel.deleteUser(id)
-    .then(() => res.send({ status: 200 }));
+    model.userModel.findUserById(id)
+     .then(user => {
+        user.projectPreferences.forEach((pid) => {
+            model.projectModel.findProjectById(pid)
+            .then((project) => {
+                const ind = project.preferredBy.indexOf(id);
+                project.preferredBy.splice(ind, 1);
+                model.projectModel.updateProject(project._id, project)
+                .then((project) => {
+                });
+            });
+        });
+        model.userModel.deleteUser(id)
+        .then(() => getAllUsers(req, res));
+     });
 };
 const updateUser = (req, res) => {
     const user = req.body;

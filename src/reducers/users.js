@@ -47,6 +47,14 @@ export default function users(state = initialState, action) {
             error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
             return { ...state, status:'failed', error:error, loading: false};
 
+        case types.DELETE_USER:// sign in user,  set loading = true and status = signin
+            return { ...state, status:'deleting', error:null, loading: true};
+        case types.DELETE_USER_SUCCESS:
+            return { ...state, users: action.users, status:'deleted', error:null, loading: false}; //<-- authenticated
+        case types.DELETE_USER_FAIL:// return error and make loading = false
+            error = action.payload.data || {message: action.payload.message};//2nd one is network or server down errors
+            return { ...state, status:'failed', error:error, loading: false};
+
         case types.LOGOUT_USER:
             return { ...state, status:'logging out', error:null, loading: true};
         case types.LOGOUT_SUCCESS:

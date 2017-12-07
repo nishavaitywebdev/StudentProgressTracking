@@ -11,6 +11,7 @@ var ProjectSchema = mongoose.Schema({
     teamSize: Number,
     term: String,
     ownedBy: {type : mongoose.Schema.Types.ObjectId, ref:'UserModel'},
+    sponsor: {type : mongoose.Schema.Types.ObjectId, ref:'UserModel'},
     teamId: {type : mongoose.Schema.Types.ObjectId, ref:'TeamModel'},
     instructor: {type : mongoose.Schema.Types.ObjectId, ref:'UserModel'},
     state: {type:String, default:"ACTIVE", enum:['INACTIVE', 'PROPOSED', 'ACTIVE', 'IN-PROGRESS', 'COMPLETED']},

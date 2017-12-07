@@ -22,7 +22,7 @@ const createProject = (req, res) => {
             newTeam.projectId = newProject._id;
             model.teamModel.updateTeam(newTeam._id, newTeam)
             .then((updatedTeam) => {
-                res.send({ status: 200, project: newProject});
+                getAllProjects(req, res)
             })
             .catch((err) => res.send({ status: 200, project: null}));
         });
@@ -78,7 +78,7 @@ const findProjectById = (req, res) => {
 const deleteProject = (req, res) => {
      const id = req.params.projectId;
      model.projectModel.deleteProject(id)
-     .then(p => res.send({ status: 200, projects: projects }));
+     .then(p => getAllProjects(req, res));
 };
 const getProjectDetails = (req, res) => {
     const id = req.params.projectId;

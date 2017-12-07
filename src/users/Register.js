@@ -36,7 +36,7 @@ class Register extends Component {
                                name="email"
                                className="form-control"
                                placeholder="email" ref="email"/><br/>
-                        <input type="password"
+                        <input type="text"
                                name="token"
                                className="form-control"
                                placeholder="token" ref="token"/><br/>
