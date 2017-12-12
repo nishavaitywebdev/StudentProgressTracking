@@ -6,36 +6,12 @@ const storage = multer.diskStorage({
   destination: __dirname+'/uploads',
 });
 const upload = multer({storage});
-const nodeMailer = require('nodemailer');
 const { passport } = require('./auth.js');
 const { postMessageOnSlackGroup } = require('./slack-api.js');
 const { UserModelApi } = require('./models/user/user.model.server.js');
 const { TeamModelApi } = require('./models/team/team.model.server.js');
 const { CourseModelApi } = require('./models/course/course.model.server.js');
 const { ProjectModelApi } = require('./models/project/project.model.server.js');
-
-const transporter = nodeMailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'itsnisha07@gmail.com',
-    pass: process.env.PASS || '',
-  }
-});
-
-const mailOptions = {
-  from: 'itsnisha07@gmail.com',
-  to: 'rajivkrishnan90@gmail.com',
-  subject: 'Sending Email using Node.js',
-  text: 'That was easy!'
-};
-
-//transporter.sendMail(mailOptions, function(error, info){
-//  if (error) {
-//    console.log(error);
-//  } else {
-//    console.log('Email sent: ' + info.response);
-//  }
-//});
 
 const isAuthenticated = (req, res, next) => {
     if(req.isAuthenticated) {
