@@ -27,7 +27,7 @@ class NewUser extends Component{
     render(){
         return(
             <div>
-                <label className="form-control">Add User</label>
+                <label>Add new User</label><br/>
                 <div className="form-group">
                     <label>First Name</label>
                     <input type="text" className="form-control" ref="firstname"/>

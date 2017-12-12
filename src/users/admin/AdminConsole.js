@@ -49,6 +49,7 @@ class AdminConsole extends Component{
                     <NewUser onUserInput={this.createUser}/><br/><hr/>
                     <a className="btn btn-primary btn-block" href={`#/manageUsers`}>Manage Users</a><br/><hr/>
                     <NewProject/><br/><hr/>
+                    <label>Search, Edit and/or Remove Projects</label><br/>
                     <ProjectList/><br/><hr/>
                     <AddCourse onUserInput={this.createCourse}/><br/><hr/>
                     <EditCourse courses={courses}

@@ -64,7 +64,7 @@ class NewProject extends Component {
             });
             return(
                 <div>
-                    <label className="form-control">Add Project</label>
+                    <label>Add new Project</label><br/>
                     <div className="form-group">
                         <label>Project Name</label>
                         <input type="text" className="form-control" ref="projectName"/>

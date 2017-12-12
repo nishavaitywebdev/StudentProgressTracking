@@ -14,7 +14,7 @@ class AddCourse extends Component{
         return(
             <div>
                 <div className="form-group">
-                    <label>Course Name</label>
+                    <label>Add new Course</label>
                     <input type="text" className="form-control" ref="coursename"/>
                 </div>
                 <a className="btn btn-primary btn-block"

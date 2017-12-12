@@ -6,7 +6,7 @@ class EditCourse extends Component{
         const keyName = "course"+id;
         const name = this.refs[keyName].value;
         const course = {
-            id: id,
+            _id: id,
             name: name,
         };
         this.props.onUserInputEdit(course);
@@ -38,7 +38,7 @@ class EditCourse extends Component{
         }.bind(this));
         return(
             <div>
-                <label className="form-control">Edit Course</label>
+                <label>Edit or Delete Courses</label>
                 <div className="list-group">
                     {
                         courseRows
